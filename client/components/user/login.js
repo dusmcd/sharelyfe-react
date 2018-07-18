@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import history from '../../history'
-import { Form, Input } from '../utility'
+import { Input } from '../utility'
+import { Form, Button, Message, Container } from 'semantic-ui-react'
 import { loginUserThunk, setErrorAction } from '../../store'
 
 class Login extends React.Component {
@@ -32,28 +33,30 @@ class Login extends React.Component {
   }
   render() {
     return (
-      <Form handleChange={this.handleChange} handleSubmit={this.handleSubmit}>
-        <Input
-          type="text"
-          name="email"
-          placeholder="Email"
-          label="Email"
-          value={this.state.email}
-        />
-        <Input
-          type="password"
-          name="password"
-          placeholder="Password"
-          label="Password"
-          value={this.state.password}
-        />
-        <button className="ui primary button" type="submit">
-          Login
-        </button>
-        {this.props.error && (
-          <div className="ui red message">{this.props.error}</div>
-        )}
-      </Form>
+      <Container>
+        <Form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+          <Input
+            type="text"
+            name="email"
+            placeholder="Email"
+            label="Email"
+            value={this.state.email}
+          />
+          <Input
+            type="password"
+            name="password"
+            placeholder="Password"
+            label="Password"
+            value={this.state.password}
+          />
+          <Button primary type="submit">
+            Login
+          </Button>
+          {this.props.error && (
+            <Message color="red">{this.props.error}</Message>
+          )}
+        </Form>
+      </Container>
     )
   }
 }
