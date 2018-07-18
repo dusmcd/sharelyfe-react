@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import history from '../history'
-import { Form, Input } from './utility'
-import { loginUserThunk, setErrorAction } from '../store'
+import history from '../../history'
+import { Form, Input } from '../utility'
+import { loginUserThunk, setErrorAction } from '../../store'
 
 class Login extends React.Component {
   constructor() {

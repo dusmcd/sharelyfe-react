@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form, Input } from './utility'
-import { createUserThunk } from '../store'
-import history from '../history'
+import { Form, Input } from '../utility'
+import { createUserThunk } from '../../store'
+import history from '../../history'
 
 class SignUp extends React.Component {
   constructor() {
