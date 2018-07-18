@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import Landing from './landing'
-import { SignUp, Login, PostList } from './components'
+import { SignUp, Login, PostList, Post } from './components'
 import { connect } from 'react-redux'
 import { getUserThunk } from './store'
 
@@ -20,6 +20,7 @@ class Routes extends React.Component {
         <Route exact path="/" component={Landing} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
+        <Route path="/posts/:id" component={Post} />
         <Route path="/posts" component={PostList} />
       </Switch>
     )
