@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\"",
+    "seed": "node bin/seed",
     "start-dev": "export NODE_ENV=development && npm run start-server & webpack -w",
     "start-client": "webpack -w",
     "start-server": "nodemon server/server.js -e html,js,scss --ignore public --ignore client"

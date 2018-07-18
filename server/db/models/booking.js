@@ -1,5 +1,5 @@
-const db = require('./db');
-const Sequelize = require('sequelize');
+const db = require('../db')
+const Sequelize = require('sequelize')
 
 const Booking = db.define('booking', {
   date: {
@@ -10,6 +10,6 @@ const Booking = db.define('booking', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-});
+})
 
-module.exports = Booking;
+module.exports = Booking

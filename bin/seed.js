@@ -1,4 +1,4 @@
-const { db, Booking, Category, Post, User } = require('../server/models/index')
+const { db, Booking, Category, Post, User } = require('../server/db/models')
 const CategoryPost = db.model('category_post')
 
 const categories = [{ name: 'Parking' }]
@@ -6,31 +6,41 @@ const categories = [{ name: 'Parking' }]
 const users = [
   {
     username: 'dusmcd',
-    name: 'Dustin McDowell',
+    firstName: 'Dustin',
+    lastName: 'McDowell',
+    password: '1234',
     phone: '555-5555',
     email: 'dustin@email.com',
   },
   {
     username: 'jradford',
-    name: 'Jordan Radford',
+    firstName: 'Jordan',
+    lastName: 'Radford',
+    password: '1234',
     phone: '444-44444',
     email: 'jordan@email.com',
   },
   {
     username: 'bobsmith',
-    name: 'Bob Smith',
+    firstName: 'Bob',
+    lastName: 'Smith',
+    password: '1234',
     phone: '555-5555',
     email: 'bob@email.com',
   },
   {
     username: 'helgap',
-    name: 'Helga Patacki',
+    firstName: 'Helga',
+    lastName: 'Petaki',
+    password: '1234',
     phone: '777-7777',
     email: 'helga@email.com',
   },
   {
     username: 'jwindsor',
-    name: 'Jane Windsor',
+    firstName: 'Jane',
+    lastName: 'Windsor',
+    password: '1234',
     phone: '555-5555',
     email: 'mswindsor@email.com',
   },

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 
 const database =
-  process.env.NODE_ENV === 'test' ? 'guitar-store-test' : 'guitar-store'
+  process.env.NODE_ENV === 'test' ? 'sharelyfe-test' : 'sharelyfe'
 
 const db = new Sequelize(`postgres://localhost:5432/${database}`, {
   logging: false,
