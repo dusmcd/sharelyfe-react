@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\"",
+    "test": "NODE_ENV='test' mocha test-setup.spec.js \"./server/**/*.spec.js\"",
     "seed": "node bin/seed",
     "start-dev": "export NODE_ENV=development && npm run start-server & webpack -w",
     "start-client": "webpack -w",

@@ -12,6 +12,7 @@ router.post('/signup', (req, res, next) => {
     lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
+    username: req.body.username,
   })
     .then(user => req.login(user, err => (err ? next(err) : res.json(user))))
     .catch(err => next(err))
