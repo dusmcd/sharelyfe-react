@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button, Container } from 'semantic-ui-react'
 import { Input } from '../utility'
 import { handleInputAction } from '../../store'
+import history from '../../history'
 
 class PostForm extends React.Component {
   handleChange = event => {
@@ -10,6 +11,10 @@ class PostForm extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault()
+    this.props.submitAction(this.props.input).then(action => {
+      history.push(`/posts/${action.post.id}`)
+      console.log('value returned form submit action:', action)
+    })
   }
   render() {
     const { title, description, price } = this.props.input
