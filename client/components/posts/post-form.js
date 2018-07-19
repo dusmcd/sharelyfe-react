@@ -42,6 +42,7 @@ class PostForm extends React.Component {
             value={price}
             type="text"
           />
+          <Input label="Image" name="imageUrl" type="file" />
           <Button primary type="submit">
             Create Post
           </Button>

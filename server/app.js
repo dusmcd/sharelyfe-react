@@ -8,6 +8,7 @@ const session = require('express-session')
 const { User, db } = require('./db/models')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const dbStore = new SequelizeStore({ db: db })
+const cloudinary = require('cloudinary')
 
 dbStore.sync()
 
@@ -40,6 +41,12 @@ passport.deserializeUser((id, done) => {
       return null
     })
     .catch(err => done(err))
+})
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
 // api routes
