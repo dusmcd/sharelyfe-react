@@ -26,6 +26,7 @@ router.post('/', (req, res, next) => {
     title: req.body.title,
     description: req.body.description,
     price: +req.body.price,
+    userId: req.user.id,
   }
   Post.create(newPost)
     .then(post => res.status(201).json(post))
