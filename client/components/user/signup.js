@@ -42,7 +42,13 @@ class SignUp extends React.Component {
             name="lastName"
             value={this.state.lastName}
           />
-          <Input type="text" placeholder="Email" label="Email" name="email" />
+          <Input
+            type="text"
+            placeholder="Email"
+            label="Email"
+            name="email"
+            value={this.state.email}
+          />
           <Input
             type="password"
             placeholder="Password"

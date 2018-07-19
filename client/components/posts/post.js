@@ -11,8 +11,8 @@ class Post extends React.Component {
     const { post } = this.props
     return (
       <Container>
-        <Card>
-          <Image src={post.imageUrl} size="large" fluid />
+        <Card fluid>
+          <Image src={post.imageUrl} fluid />
           <Card.Content>
             <Card.Header>{post.title}</Card.Header>
             <Card.Meta>

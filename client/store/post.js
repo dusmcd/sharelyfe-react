@@ -5,6 +5,8 @@ import axios from 'axios'
 */
 const GET_POSTS = 'GET_POSTS'
 const GET_ONE_POST = 'GET_ONE_POST'
+const ADD_POST = 'ADD_POST'
+const HANDLE_INPUT = 'HANDLE_INPUT'
 
 /*
   ACTION CREATORS
@@ -16,10 +18,22 @@ const getPostsAction = posts => {
     posts,
   }
 }
-const getOnePostAction = post => {
+export const getOnePostAction = post => {
   return {
     type: GET_ONE_POST,
     post,
+  }
+}
+const addPostAction = post => {
+  return {
+    type: ADD_POST,
+    post,
+  }
+}
+export const handleInputAction = formData => {
+  return {
+    type: HANDLE_INPUT,
+    formData,
   }
 }
 
@@ -42,6 +56,14 @@ export const getPostThunk = postId => {
       .catch(err => console.error(err))
   }
 }
+export const addPostThunk = formData => {
+  return dispatch => {
+    return axios
+      .post('/api/posts', formData)
+      .then(res => dispatch(addPostAction(res.data)))
+      .catch(err => console.error(err))
+  }
+}
 
 /*
   REDUCER
@@ -50,6 +72,7 @@ export const getPostThunk = postId => {
 const initialState = {
   currentPost: {},
   posts: [],
+  input: { title: '', description: '', price: '' },
 }
 
 export default function(state = initialState, action) {
@@ -58,6 +81,13 @@ export default function(state = initialState, action) {
       return { ...state, posts: action.posts }
     case GET_ONE_POST:
       return { ...state, currentPost: action.post }
+    case ADD_POST:
+      return { ...state, posts: [...state.posts, action.post] }
+    case HANDLE_INPUT:
+      return {
+        ...state,
+        input: { ...state.input, ...action.formData },
+      }
     default:
       return state
   }
