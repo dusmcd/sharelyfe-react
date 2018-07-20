@@ -72,7 +72,7 @@ export const addPostThunk = formData => {
 const initialState = {
   currentPost: {},
   posts: [],
-  input: { title: '', description: '', price: '' },
+  input: { title: '', description: '', price: '', imageBuffer: {} },
 }
 
 export default function(state = initialState, action) {

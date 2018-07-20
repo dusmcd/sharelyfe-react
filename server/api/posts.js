@@ -1,5 +1,6 @@
 const { Post, User, Booking } = require('../db/models')
 const router = require('express').Router()
+const fs = require('fs')
 
 router.get('/', (req, res, next) => {
   Post.findAll()
@@ -28,6 +29,17 @@ router.post('/', (req, res, next) => {
     price: +req.body.price,
     userId: req.user.id,
   }
+  fs.writeFile(
+    'server/images/test.jpg',
+    req.body.imageBuffer.toString('base64'),
+    'base64',
+    err => {
+      if (err) {
+        throw err
+      }
+      console.log('the file has been saved')
+    }
+  )
   Post.create(newPost)
     .then(post => res.status(201).json(post))
     .catch(err => next(err))

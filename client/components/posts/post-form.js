@@ -11,22 +11,33 @@ class PostForm extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault()
+    console.log('form data:', this.props.input)
     this.props.submitAction(this.props.input).then(action => {
       history.push(`/posts/${action.post.id}`)
       console.log('value returned form submit action:', action)
     })
   }
+  handleFile = event => {
+    const fileReader = new FileReader()
+    const file = event.target.files[0]
+    fileReader.onload = event => {
+      const imageBuffer = Buffer.from(event.target.result)
+      this.props.handleChange({ imageBuffer })
+    }
+    fileReader.readAsArrayBuffer(file)
+  }
   render() {
     const { title, description, price } = this.props.input
     return (
       <Container>
-        <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
+        <Form onSubmit={this.handleSubmit}>
           <Input
             label="Title"
             name="title"
             placeholder="Title"
             value={title}
             type="text"
+            onChange={this.handleChange}
           />
           <Input
             label="Description"
@@ -34,6 +45,7 @@ class PostForm extends React.Component {
             placeholder="Description"
             value={description}
             type="text"
+            onChange={this.handleChange}
           />
           <Input
             label="Price"
@@ -41,8 +53,14 @@ class PostForm extends React.Component {
             placeholder="Price"
             value={price}
             type="text"
+            onChange={this.handleChange}
           />
-          <Input label="Image" name="imageUrl" type="file" />
+          <Input
+            label="Image"
+            name="imageUrl"
+            type="file"
+            onChange={this.handleFile}
+          />
           <Button primary type="submit">
             Create Post
           </Button>
