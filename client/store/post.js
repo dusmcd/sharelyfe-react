@@ -56,10 +56,15 @@ export const getPostThunk = postId => {
       .catch(err => console.error(err))
   }
 }
-export const addPostThunk = formData => {
+export const addPostThunk = ({ file, title, description, price }) => {
+  const data = new FormData()
+  data.append('file', file)
+  data.append('title', title)
+  data.append('description', description)
+  data.append('price', price)
   return dispatch => {
     return axios
-      .post('/api/posts', formData)
+      .post('/api/posts', data)
       .then(res => dispatch(addPostAction(res.data)))
       .catch(err => console.error(err))
   }
@@ -72,7 +77,7 @@ export const addPostThunk = formData => {
 const initialState = {
   currentPost: {},
   posts: [],
-  input: { title: '', description: '', price: '', imageBuffer: {} },
+  input: { title: '', description: '', price: '', file: null },
 }
 
 export default function(state = initialState, action) {

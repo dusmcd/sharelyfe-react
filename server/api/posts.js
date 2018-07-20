@@ -1,6 +1,15 @@
 const { Post, User, Booking } = require('../db/models')
 const router = require('express').Router()
-const fs = require('fs')
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '/tmp/imgs')
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  },
+})
+const upload = multer({ storage })
 
 router.get('/', (req, res, next) => {
   Post.findAll()
@@ -11,7 +20,7 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
   Post.findById(req.params.id, { include: [User] })
     .then(post => {
-      res.json(post)
+      return res.json(post)
     })
     .catch(err => next(err))
 })
@@ -22,24 +31,13 @@ router.get('/:id/bookings', (req, res, next) => {
     .catch(err => next(err))
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('file'), (req, res, next) => {
   const newPost = {
     title: req.body.title,
     description: req.body.description,
     price: +req.body.price,
     userId: req.user.id,
   }
-  fs.writeFile(
-    'server/images/test.jpg',
-    req.body.imageBuffer.toString('base64'),
-    'base64',
-    err => {
-      if (err) {
-        throw err
-      }
-      console.log('the file has been saved')
-    }
-  )
   Post.create(newPost)
     .then(post => res.status(201).json(post))
     .catch(err => next(err))

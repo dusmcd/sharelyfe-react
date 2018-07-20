@@ -14,17 +14,11 @@ class PostForm extends React.Component {
     console.log('form data:', this.props.input)
     this.props.submitAction(this.props.input).then(action => {
       history.push(`/posts/${action.post.id}`)
-      console.log('value returned form submit action:', action)
     })
   }
   handleFile = event => {
-    const fileReader = new FileReader()
     const file = event.target.files[0]
-    fileReader.onload = event => {
-      const imageBuffer = Buffer.from(event.target.result)
-      this.props.handleChange({ imageBuffer })
-    }
-    fileReader.readAsArrayBuffer(file)
+    this.props.handleChange({ file })
   }
   render() {
     const { title, description, price } = this.props.input
@@ -57,7 +51,7 @@ class PostForm extends React.Component {
           />
           <Input
             label="Image"
-            name="imageUrl"
+            name="imageFile"
             type="file"
             onChange={this.handleFile}
           />
