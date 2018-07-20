@@ -11,7 +11,6 @@ class PostForm extends React.Component {
   }
   handleSubmit = event => {
     event.preventDefault()
-    console.log('form data:', this.props.input)
     this.props.submitAction(this.props.input).then(action => {
       history.push(`/posts/${action.post.id}`)
     })

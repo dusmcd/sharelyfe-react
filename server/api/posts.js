@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
   },
 })
 const upload = multer({ storage })
+const cloudinaryUpload = require('cloudinary').v2.uploader.upload
 
 router.get('/', (req, res, next) => {
   Post.findAll()
@@ -38,9 +39,13 @@ router.post('/', upload.single('file'), (req, res, next) => {
     price: +req.body.price,
     userId: req.user.id,
   }
-  Post.create(newPost)
-    .then(post => res.status(201).json(post))
-    .catch(err => next(err))
+  cloudinaryUpload(`/tmp/imgs/${req.file.filename}`, (err, result) => {
+    if (err) console.error(err.message)
+    newPost.imageUrl = result.secure_url
+    Post.create(newPost)
+      .then(post => res.status(201).json(post))
+      .catch(dberr => next(dberr))
+  })
 })
 
 module.exports = router
