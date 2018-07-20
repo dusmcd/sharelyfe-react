@@ -1,3 +1,5 @@
-export { default as ProductList } from './product-list'
-export { default as SignUp } from './signup'
-export { default as Login } from './login'
+export { default as SignUp } from './user/signup'
+export { default as Login } from './user/login'
+export { default as PostList } from './posts/post-list'
+export { default as Post } from './posts/post'
+export { default as AddPost } from './posts/add-post'

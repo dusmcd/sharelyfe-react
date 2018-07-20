@@ -16,7 +16,7 @@ const Post = db.define('post', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.DOUBLE,
+    type: Sequelize.DECIMAL,
     allowNull: false,
     validate: {
       notEmpty: true,

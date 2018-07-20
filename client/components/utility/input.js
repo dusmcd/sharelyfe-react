@@ -1,12 +1,19 @@
 import React from 'react'
+import { Form } from 'semantic-ui-react'
 
 const Input = props => {
-  const { type, value, label, placeholder, name } = props
+  const { type, value, label, placeholder, name, onChange } = props
   return (
-    <div className="field">
+    <Form.Field>
       <label>{label}</label>
-      <input type={type} value={value} placeholder={placeholder} name={name} />
-    </div>
+      <input
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        name={name}
+        onChange={onChange}
+      />
+    </Form.Field>
   )
 }
 

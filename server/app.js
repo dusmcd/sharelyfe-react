@@ -8,6 +8,7 @@ const session = require('express-session')
 const { User, db } = require('./db/models')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const dbStore = new SequelizeStore({ db: db })
+const cloudinary = require('cloudinary')
 
 dbStore.sync()
 
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(morgan('dev'))
-app.use(bodyParser.json({ extended: false }))
+app.use(bodyParser.json({ extended: false, limit: '50mb' }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')))
 app.use(
@@ -42,6 +43,12 @@ passport.deserializeUser((id, done) => {
     .catch(err => done(err))
 })
 
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
 // api routes
 app.use('/api', require('./api'))
 
@@ -54,7 +61,6 @@ app.get('*', (req, res, next) => {
 // error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error message:', err.message)
-  console.error('Call stack:', err.stack)
   res.status(err.status || 500).send(err.message || 'Internal Server Error')
 })
 app.use((req, res, next) => {

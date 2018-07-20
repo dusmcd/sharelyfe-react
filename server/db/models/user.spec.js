@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { User, db } = require('./index')
+const { User } = require('./index')
 const { encryptPassword } = require('./user')
 
 describe('User model', () => {
@@ -8,6 +8,7 @@ describe('User model', () => {
     bob = {
       firstName: 'Bob',
       lastName: 'McDowell',
+      username: 'bmcd',
       email: 'bob@email.com',
       password: '1234',
     }
@@ -15,6 +16,7 @@ describe('User model', () => {
       firstName: 'Joe',
       lastName: 'McDowell',
       email: 'joe@email.com',
+      username: 'jmcd',
       password: 'potato',
     }
     noName = {
@@ -28,11 +30,8 @@ describe('User model', () => {
       email: 'rick@gmail.com',
       password: 'password',
     }
-    return db.sync({ force: true })
   })
-  afterEach(() => {
-    return db.sync({ force: true })
-  })
+
   it('properly creates a user', () => {
     return User.create(bob).then(createdUser => {
       expect(createdUser).to.be.an('object')

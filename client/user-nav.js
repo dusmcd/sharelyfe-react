@@ -1,29 +1,45 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Button, Icon } from 'semantic-ui-react'
 import { logoutUserThunk } from './store'
+import styled from 'styled-components'
+
+const UserContainer = styled.ul`
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+`
 
 const UserNav = props => {
   const isLoggedIn = props.currentUser
   return (
     <div>
       {isLoggedIn ? (
-        <ul>
+        <UserContainer>
           <li>
             <a href="#" onClick={() => props.logout()}>
               Logout
             </a>
           </li>
-        </ul>
+          <li>
+            <Link to="/posts/new">
+              <Button icon labelPosition="right">
+                <Icon name="plus" />
+                Post Rental
+              </Button>
+            </Link>
+          </li>
+        </UserContainer>
       ) : (
-        <ul>
+        <UserContainer>
           <li>
             <Link to="/login">Login</Link>
           </li>
           <li>
             <Link to="/signup">Sign Up</Link>
           </li>
-        </ul>
+        </UserContainer>
       )}
     </div>
   )

@@ -10,18 +10,17 @@ describe('Auth routes', () => {
       firstName: 'Bob',
       lastName: 'McDowell',
       email: 'bob@email.com',
+      username: 'bmcd',
       password: '1234',
     }
     joe = {
       firstName: 'Joe',
       lastName: 'McDowell',
       email: 'joe@email.com',
+      username: 'jmcd',
       password: 'potato',
     }
     return User.create(bob)
-  })
-  afterEach(() => {
-    return db.sync({ force: true })
   })
   it('signs up a user', () => {
     return request
