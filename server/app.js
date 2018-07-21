@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 app.use(morgan('dev'))
-app.use(bodyParser.json({ extended: false, limit: '50mb' }))
+app.use(bodyParser.json({ extended: false }))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, '..', 'client', 'public')))
 app.use(
