@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Image, Container, Card } from 'semantic-ui-react'
 import { getPostThunk } from '../../store'
+import BookingCalendar from './booking-calendar'
 
 class Post extends React.Component {
   componentDidMount() {
@@ -30,6 +31,7 @@ class Post extends React.Component {
             <h3>{`$${post.price}`}</h3>
           </Card.Content>
         </Card>
+        <BookingCalendar />
       </Container>
     )
   }
