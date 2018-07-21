@@ -10,6 +10,10 @@ const Booking = db.define('booking', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  price: {
+    type: Sequelize.DECIMAL,
+    allowNull: false,
+  },
 })
 
 module.exports = Booking

@@ -84,11 +84,11 @@ const posts = [
 ]
 
 const bookings = [
-  { date: new Date(2018, 6, 15), payment: 'Cash' },
-  { date: new Date(2018, 6, 13), payment: 'Venmo' },
-  { date: new Date(2018, 6, 10), payment: 'Cash' },
-  { date: new Date(2018, 7, 9), payment: 'Credit Card' },
-  { date: new Date(2018, 8, 15), payment: 'Paypal' },
+  { date: new Date(2018, 6, 15), payment: 'Cash', price: 7.0 },
+  { date: new Date(2018, 6, 13), payment: 'Venmo', price: 7.0 },
+  { date: new Date(2018, 6, 10), payment: 'Cash', price: 7.0 },
+  { date: new Date(2018, 7, 9), payment: 'Credit Card', price: 7.0 },
+  { date: new Date(2018, 8, 15), payment: 'Paypal', price: 7.0 },
 ]
 
 db.sync({ force: true })
