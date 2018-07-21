@@ -6,7 +6,9 @@ class BookingCalendar extends React.Component {
     // black out dates that are unavailable
   }
   render() {
-    return <Calendar />
+    return (
+      <Calendar selectRange tileDisabled={({ date }) => date.getDay() === 3} />
+    )
   }
 }
 
