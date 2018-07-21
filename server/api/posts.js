@@ -54,4 +54,18 @@ router.post('/', upload.single('file'), (req, res, next) => {
   createPost(postData)
 })
 
+router.post('/:id/bookings', (req, res, next) => {
+  const date = 'parsed req.body.date'
+  const bookingData = {
+    date: date,
+    payment: req.body.payment,
+    price: req.body.price,
+    userId: req.user.id,
+    postId: req.params.id,
+  }
+  Booking.create(bookingData)
+    .then(booking => res.status(201).json(booking))
+    .catch(err => next(err))
+})
+
 module.exports = router
