@@ -34,7 +34,7 @@ class Post extends React.Component {
           </Card.Content>
         </Card>
         <BookingCalendar />
-        <ConfirmationPopup Trigger={Trigger} />
+        <ConfirmationPopup Trigger={Trigger} post={post} />
       </Container>
     )
   }

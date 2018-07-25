@@ -9,7 +9,6 @@ class BookingCalendar extends React.Component {
   }
 
   handleDateSelection = dates => {
-    // console.log('DATES SELECTED:', dates)
     this.props.setDates(dates)
   }
   render() {
