@@ -3,7 +3,7 @@ const Sequelize = require('sequelize')
 
 const Booking = db.define('booking', {
   date: {
-    type: Sequelize.DATE,
+    type: Sequelize.ARRAY(Sequelize.DATE),
     allowNull: false,
   },
   payment: {
