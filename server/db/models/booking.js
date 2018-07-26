@@ -2,8 +2,12 @@ const db = require('../db')
 const Sequelize = require('sequelize')
 
 const Booking = db.define('booking', {
-  date: {
-    type: Sequelize.ARRAY(Sequelize.DATE),
+  startDate: {
+    type: Sequelize.DATE,
+    allowNull: false,
+  },
+  endDate: {
+    type: Sequelize.DATE,
     allowNull: false,
   },
   payment: {

@@ -4,8 +4,7 @@ import axios from 'axios'
   ACTIONS
 */
 const SET_DATE = 'SET_DATE'
-const CREATE_BOOKING = 'CREATE_BOOKING'
-
+const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
 /*
   ACTION CREATORS
 */
@@ -15,10 +14,10 @@ export const setDateAction = dateRange => {
     dateRange,
   }
 }
-const createBookingAction = booking => {
+export const setLoadStatusAction = status => {
   return {
-    type: CREATE_BOOKING,
-    booking,
+    type: SET_LOAD_STATUS,
+    status,
   }
 }
 
@@ -28,9 +27,10 @@ const createBookingAction = booking => {
 
 export const createBookingThunk = (postId, formData) => {
   return dispatch => {
+    dispatch(setLoadStatusAction(true))
     return axios
       .post(`/api/posts/${postId}/bookings`, formData)
-      .then(() => dispatch(createBookingAction(true)))
+      .then(() => dispatch(setLoadStatusAction(false)))
       .catch(err => console.error(err.message))
   }
 }
@@ -41,15 +41,15 @@ export const createBookingThunk = (postId, formData) => {
 
 const initialState = {
   dates: [],
-  booking: false,
+  isLoading: false,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_DATE:
       return { ...state, dates: action.dateRange }
-    case CREATE_BOOKING:
-      return { ...state, booking: action.booking }
+    case SET_LOAD_STATUS:
+      return { ...state, isLoading: action.status }
     default:
       return state
   }

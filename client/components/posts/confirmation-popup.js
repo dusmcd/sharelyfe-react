@@ -1,57 +1,97 @@
 import React from 'react'
 import { Modal, Table, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { createBookingThunk } from '../../store'
+import { createBookingThunk, setLoadStatusAction } from '../../store'
 
-const ConfirmationPopup = props => {
-  const { post, dates, createBooking } = props
-  if (!dates.length) return null
-  return (
-    <Modal trigger={props.Trigger}>
-      <Modal.Header>Please Confirm Your Reservation Details Below</Modal.Header>
-      <Modal.Content>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell singleLine>Rental Item</Table.HeaderCell>
-              <Table.HeaderCell>Price</Table.HeaderCell>
-              <Table.HeaderCell>Dates</Table.HeaderCell>
-              <Table.HeaderCell>Owner</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell singleLine>{post.title}</Table.Cell>
-              <Table.Cell>${post.price}/day</Table.Cell>
-              <Table.Cell>
-                {dates[0].toDateString()}-{dates[1].toDateString()}
-              </Table.Cell>
-              <Table.Cell>{post.user.username}</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
-        <Button
-          onClick={() => console.log('RESERVATION CONFIRMED!')}
-          type="submit"
-          primary
-        >
-          Confirm Reservation
-        </Button>
-        <Button color="red">Cancel</Button>
-      </Modal.Content>
-    </Modal>
-  )
+class ConfirmationPopup extends React.Component {
+  componentDidMount() {
+    this.props.setStatus(false)
+  }
+  createBooking = (postId, formData) => {
+    this.props.createBooking(postId, formData)
+  }
+  parseDates(dates) {
+    const [startDate, endDate] = dates
+    const newStartDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    )
+    const newEndDate = new Date(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate()
+    )
+    return [newStartDate, newEndDate]
+  }
+  render() {
+    const { post, dates, isLoading } = this.props
+    if (!dates.length) return null
+    console.log('DATES:', dates)
+
+    console.log('PARSED DATES:', this.parseDates(dates))
+    const bookingData = {
+      date: this.parseDates(dates),
+      price: post.price,
+      payment: 'Cash',
+    }
+
+    return (
+      <Modal trigger={this.props.Trigger}>
+        <Modal.Header>
+          Please Confirm Your Reservation Details Below
+        </Modal.Header>
+        <Modal.Content>
+          {!isLoading ? (
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell singleLine>Rental Item</Table.HeaderCell>
+                  <Table.HeaderCell>Price</Table.HeaderCell>
+                  <Table.HeaderCell>Dates</Table.HeaderCell>
+                  <Table.HeaderCell>Owner</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell singleLine>{post.title}</Table.Cell>
+                  <Table.Cell>${post.price}/day</Table.Cell>
+                  <Table.Cell>
+                    {dates[0].toDateString()}-{dates[1].toDateString()}
+                  </Table.Cell>
+                  <Table.Cell>{post.user.username}</Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          ) : (
+            <div>LOADING...</div>
+          )}
+
+          <Button
+            onClick={() => this.createBooking(post.id, bookingData)}
+            type="submit"
+            primary
+          >
+            Confirm Reservation
+          </Button>
+          <Button color="red">Cancel</Button>
+        </Modal.Content>
+      </Modal>
+    )
+  }
 }
 
 const mapState = state => {
   return {
     dates: state.booking.dates,
+    isLoading: state.booking.isLoading,
   }
 }
 const mapDispatch = dispatch => {
   return {
     createBooking: (postId, formData) =>
       dispatch(createBookingThunk(postId, formData)),
+    setStatus: status => dispatch(setLoadStatusAction(status)),
   }
 }
 

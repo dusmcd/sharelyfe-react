@@ -55,8 +55,10 @@ router.post('/', upload.single('file'), (req, res, next) => {
 })
 
 router.post('/:id/bookings', (req, res, next) => {
+  console.log('DATE:', req.body.date)
   const bookingData = {
-    date: req.body.date,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
     payment: req.body.payment,
     price: req.body.price,
     userId: req.user.id,
