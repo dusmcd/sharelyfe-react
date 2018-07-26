@@ -4,7 +4,7 @@ const request = require('supertest')
 const app = require('../app')
 
 describe('post api', () => {
-  let basketball, football, tom, jerry, booking1, booking2
+  let basketball, football, tom, jerry, booking1, booking2, newBooking, agent
   beforeEach(() => {
     basketball = {
       title: 'Basketball',
@@ -31,12 +31,22 @@ describe('post api', () => {
       password: '1234',
     }
     booking1 = {
-      date: new Date(2018, 6, 15),
+      startDate: new Date(2018, 6, 15),
+      endDate: new Date(2018, 6, 16),
       payment: 'Cash',
+      price: 7.0,
     }
     booking2 = {
-      date: new Date(2018, 6, 15),
+      startDate: new Date(2018, 6, 15),
+      endDate: new Date(2018, 6, 16),
       payment: 'Credit Card',
+      price: 7.0,
+    }
+    newBooking = {
+      startDate: new Date(2018, 8, 25),
+      endDate: new Date(2018, 8, 26),
+      payment: 'Cash',
+      price: 7.0,
     }
     return Promise.all([User.create(tom), User.create(jerry)])
       .then(([tom, jerry]) => {
@@ -53,6 +63,14 @@ describe('post api', () => {
       })
       .then(() => {
         return Post.create(football)
+      })
+      .then(() => {
+        agent = request.agent(app)
+        return agent
+          .post('/api/auth/login')
+          .send({ email: tom.email, password: tom.password })
+          .expect(200)
+          .catch(err => console.error(err.message))
       })
       .catch(err => console.error('Error from posts api test:', err.message))
   })
@@ -86,7 +104,8 @@ describe('post api', () => {
       price: 4.35,
       userId: 2,
     }
-    return request(app)
+
+    return agent
       .post('/api/posts')
       .send(parking)
       .expect(201)
@@ -99,14 +118,34 @@ describe('post api', () => {
         expect(+newPost.price).to.equal(4.35)
       })
   })
+  it('creates a booking for a post', () => {
+    return agent
+      .post('/api/posts/2/bookings')
+      .send(newBooking)
+      .expect(201)
+      .then(res => {
+        return Booking.findById(res.body.id)
+      })
+      .then(booking => {
+        expect(booking).to.not.equal(null)
+        expect(booking.startDate.getMonth()).to.equal(
+          newBooking.startDate.getMonth()
+        )
+      })
+  })
   it('fetches bookings associated with post', () => {
     return request(app)
       .get('/api/posts/1/bookings')
       .expect(200)
       .then(res => {
         expect(res.body.length).to.equal(2)
-        expect(res.body[0].payment).to.equal(booking1.payment)
-        expect(res.body[1].payment).to.equal(booking2.payment)
+        const validBookings = res.body.filter(booking => {
+          return (
+            booking.payment === booking1.payment ||
+            booking.payment === booking2.payment
+          )
+        })
+        expect(validBookings.length).to.equal(2)
       })
   })
 })

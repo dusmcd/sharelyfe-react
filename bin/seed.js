@@ -82,13 +82,38 @@ const posts = [
     price: 5,
   },
 ]
-
+const endDate = new Date(2018, 10, 16)
 const bookings = [
-  { date: new Date(2018, 6, 15), payment: 'Cash' },
-  { date: new Date(2018, 6, 13), payment: 'Venmo' },
-  { date: new Date(2018, 6, 10), payment: 'Cash' },
-  { date: new Date(2018, 7, 9), payment: 'Credit Card' },
-  { date: new Date(2018, 8, 15), payment: 'Paypal' },
+  {
+    startDate: new Date(2018, 6, 15),
+    endDate: endDate,
+    payment: 'Cash',
+    price: 7.0,
+  },
+  {
+    startDate: new Date(2018, 6, 13),
+    endDate: endDate,
+    payment: 'Venmo',
+    price: 7.0,
+  },
+  {
+    startDate: new Date(2018, 6, 10),
+    endDate: endDate,
+    payment: 'Cash',
+    price: 7.0,
+  },
+  {
+    startDate: new Date(2018, 7, 9),
+    endDate: endDate,
+    payment: 'Credit Card',
+    price: 7.0,
+  },
+  {
+    startDate: new Date(2018, 8, 15),
+    endDate: endDate,
+    payment: 'Paypal',
+    price: 7.0,
+  },
 ]
 
 db.sync({ force: true })

@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Image, Container, Card } from 'semantic-ui-react'
+import { Image, Container, Card, Modal, Button } from 'semantic-ui-react'
 import { getPostThunk } from '../../store'
+import BookingCalendar from './booking-calendar'
+import ConfirmationPopup from './confirmation-popup'
 
 class Post extends React.Component {
   componentDidMount() {
@@ -9,6 +11,7 @@ class Post extends React.Component {
   }
   render() {
     const { post } = this.props
+    const Trigger = <Button color="green">Complete Reservation</Button>
     return (
       <Container>
         <Card fluid>
@@ -30,6 +33,8 @@ class Post extends React.Component {
             <h3>{`$${post.price}`}</h3>
           </Card.Content>
         </Card>
+        <BookingCalendar />
+        <ConfirmationPopup Trigger={Trigger} post={post} />
       </Container>
     )
   }

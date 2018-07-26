@@ -33,19 +33,40 @@ router.get('/:id/bookings', (req, res, next) => {
 })
 
 router.post('/', upload.single('file'), (req, res, next) => {
-  const newPost = {
+  const postData = {
     title: req.body.title,
     description: req.body.description,
     price: +req.body.price,
     userId: req.user.id,
   }
-  cloudinaryUpload(`/tmp/imgs/${req.file.filename}`, (err, result) => {
-    if (err) console.error(err.message)
-    newPost.imageUrl = result.secure_url
+  const createPost = newPost => {
     Post.create(newPost)
       .then(post => res.status(201).json(post))
       .catch(dberr => next(dberr))
-  })
+  }
+  if (req.file) {
+    return cloudinaryUpload(`/tmp/imgs/${req.file.filename}`, (err, result) => {
+      if (err) console.error(err.message)
+      postData.imageUrl = result.secure_url
+      createPost(postData)
+    })
+  }
+  createPost(postData)
+})
+
+router.post('/:id/bookings', (req, res, next) => {
+  console.log('DATE:', req.body.date)
+  const bookingData = {
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    payment: req.body.payment,
+    price: req.body.price,
+    userId: req.user.id,
+    postId: req.params.id,
+  }
+  Booking.create(bookingData)
+    .then(booking => res.status(201).json(booking))
+    .catch(err => next(err))
 })
 
 module.exports = router
