@@ -15,6 +15,9 @@ class ConfirmationPopup extends React.Component {
   createBooking = (postId, formData) => {
     this.props.createBooking(postId, formData)
   }
+  handleClose = () => {
+    this.props.setBookingStatus(false)
+  }
 
   render() {
     const { post, dates, isLoading, bookingComplete } = this.props
@@ -27,7 +30,7 @@ class ConfirmationPopup extends React.Component {
     }
 
     return (
-      <Modal trigger={this.props.Trigger} closeIcon>
+      <Modal trigger={this.props.Trigger} closeIcon onClose={this.handleClose}>
         <Modal.Header>
           Please Confirm Your Reservation Details Below
         </Modal.Header>
