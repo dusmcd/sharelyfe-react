@@ -10,28 +10,13 @@ class ConfirmationPopup extends React.Component {
   createBooking = (postId, formData) => {
     this.props.createBooking(postId, formData)
   }
-  parseDates(dates) {
-    const [startDate, endDate] = dates
-    const newStartDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth(),
-      startDate.getDate()
-    )
-    const newEndDate = new Date(
-      endDate.getFullYear(),
-      endDate.getMonth(),
-      endDate.getDate()
-    )
-    return [newStartDate, newEndDate]
-  }
+
   render() {
     const { post, dates, isLoading } = this.props
     if (!dates.length) return null
-    console.log('DATES:', dates)
-
-    console.log('PARSED DATES:', this.parseDates(dates))
     const bookingData = {
-      date: this.parseDates(dates),
+      startDate: dates[0],
+      endDate: dates[1],
       price: post.price,
       payment: 'Cash',
     }
