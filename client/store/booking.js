@@ -5,6 +5,7 @@ import axios from 'axios'
 */
 const SET_DATE = 'SET_DATE'
 const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
+const BOOKING_COMPLETE = 'BOOKING_COMPLETE'
 /*
   ACTION CREATORS
 */
@@ -20,6 +21,12 @@ export const setLoadStatusAction = status => {
     status,
   }
 }
+export const bookingCompleteAction = status => {
+  return {
+    type: BOOKING_COMPLETE,
+    status,
+  }
+}
 
 /*
   THUNKS
@@ -30,7 +37,10 @@ export const createBookingThunk = (postId, formData) => {
     dispatch(setLoadStatusAction(true))
     return axios
       .post(`/api/posts/${postId}/bookings`, formData)
-      .then(() => dispatch(setLoadStatusAction(false)))
+      .then(() => {
+        dispatch(setLoadStatusAction(false))
+        dispatch(bookingCompleteAction(true))
+      })
       .catch(err => console.error(err.message))
   }
 }
@@ -42,6 +52,7 @@ export const createBookingThunk = (postId, formData) => {
 const initialState = {
   dates: [],
   isLoading: false,
+  bookingComplete: false,
 }
 
 export default (state = initialState, action) => {
@@ -50,6 +61,8 @@ export default (state = initialState, action) => {
       return { ...state, dates: action.dateRange }
     case SET_LOAD_STATUS:
       return { ...state, isLoading: action.status }
+    case BOOKING_COMPLETE:
+      return { ...state, bookingComplete: action.status }
     default:
       return state
   }

@@ -1,18 +1,23 @@
 import React from 'react'
-import { Modal, Table, Button } from 'semantic-ui-react'
+import { Modal, Table, Button, Message } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { createBookingThunk, setLoadStatusAction } from '../../store'
+import {
+  createBookingThunk,
+  setLoadStatusAction,
+  bookingCompleteAction,
+} from '../../store'
 
 class ConfirmationPopup extends React.Component {
   componentDidMount() {
     this.props.setStatus(false)
+    this.props.setBookingStatus(false)
   }
   createBooking = (postId, formData) => {
     this.props.createBooking(postId, formData)
   }
 
   render() {
-    const { post, dates, isLoading } = this.props
+    const { post, dates, isLoading, bookingComplete } = this.props
     if (!dates.length) return null
     const bookingData = {
       startDate: dates[0],
@@ -22,7 +27,7 @@ class ConfirmationPopup extends React.Component {
     }
 
     return (
-      <Modal trigger={this.props.Trigger}>
+      <Modal trigger={this.props.Trigger} closeIcon>
         <Modal.Header>
           Please Confirm Your Reservation Details Below
         </Modal.Header>
@@ -51,7 +56,13 @@ class ConfirmationPopup extends React.Component {
           ) : (
             <div>LOADING...</div>
           )}
-
+          {bookingComplete && (
+            <Message
+              success
+              header="Your reservation has been completed"
+              content="You will receive an email with your reservation details shortly. Please see My Reservations page for all activity."
+            />
+          )}
           <Button
             onClick={() => this.createBooking(post.id, bookingData)}
             type="submit"
@@ -59,7 +70,6 @@ class ConfirmationPopup extends React.Component {
           >
             Confirm Reservation
           </Button>
-          <Button color="red">Cancel</Button>
         </Modal.Content>
       </Modal>
     )
@@ -70,6 +80,7 @@ const mapState = state => {
   return {
     dates: state.booking.dates,
     isLoading: state.booking.isLoading,
+    bookingComplete: state.booking.bookingComplete,
   }
 }
 const mapDispatch = dispatch => {
@@ -77,6 +88,7 @@ const mapDispatch = dispatch => {
     createBooking: (postId, formData) =>
       dispatch(createBookingThunk(postId, formData)),
     setStatus: status => dispatch(setLoadStatusAction(status)),
+    setBookingStatus: status => dispatch(bookingCompleteAction(status)),
   }
 }
 
