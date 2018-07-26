@@ -31,17 +31,17 @@ describe('post api', () => {
       password: '1234',
     }
     booking1 = {
-      date: new Date(2018, 6, 15),
+      date: [new Date(2018, 6, 15), new Date(2018, 6, 16)],
       payment: 'Cash',
       price: 7.0,
     }
     booking2 = {
-      date: new Date(2018, 6, 15),
+      date: [new Date(2018, 6, 15), new Date(2018, 6, 16)],
       payment: 'Credit Card',
       price: 7.0,
     }
     newBooking = {
-      date: new Date(2018, 8, 25),
+      date: [new Date(2018, 8, 25), new Date(2018, 8, 26)],
       payment: 'Cash',
       price: 7.0,
     }
@@ -125,7 +125,9 @@ describe('post api', () => {
       })
       .then(booking => {
         expect(booking).to.not.equal(null)
-        expect(booking.date).to.equal(newBooking.date)
+        expect(booking.date[0].getMonth()).to.equal(
+          newBooking.date[0].getMonth()
+        )
       })
   })
   it('fetches bookings associated with post', () => {

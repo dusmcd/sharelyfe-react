@@ -55,7 +55,6 @@ router.post('/', upload.single('file'), (req, res, next) => {
 })
 
 router.post('/:id/bookings', (req, res, next) => {
-  // const date = 'parsed req.body.date'
   const bookingData = {
     date: req.body.date,
     payment: req.body.payment,
