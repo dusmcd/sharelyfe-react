@@ -14,34 +14,35 @@ const UserContainer = styled.ul`
 const UserNav = props => {
   const isLoggedIn = props.currentUser
   return (
-    <div>
-      {isLoggedIn ? (
-        <UserContainer>
-          <li>
-            <a href="#" onClick={() => props.logout()}>
-              Logout
-            </a>
-          </li>
-          <li>
-            <Link to="/posts/new">
-              <Button icon labelPosition="right">
-                <Icon name="plus" />
-                Post Rental
-              </Button>
-            </Link>
-          </li>
-        </UserContainer>
-      ) : (
-        <UserContainer>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Sign Up</Link>
-          </li>
-        </UserContainer>
+    <UserContainer>
+      {isLoggedIn && (
+        <li>
+          <a href="#" onClick={() => props.logout()}>
+            Logout
+          </a>
+        </li>
       )}
-    </div>
+      {isLoggedIn && (
+        <li>
+          <Link to="/posts/new">
+            <Button icon labelPosition="right">
+              <Icon name="plus" />
+              Post Rental
+            </Button>
+          </Link>
+        </li>
+      )}
+
+      <li>
+        <Link to="/login">Login</Link>
+      </li>
+      <li>
+        <Link to="/signup">Sign Up</Link>
+      </li>
+      <li>
+        <Link to="/posts">All Posts</Link>
+      </li>
+    </UserContainer>
   )
 }
 
