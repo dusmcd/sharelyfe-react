@@ -4,8 +4,20 @@ const request = require('supertest')
 const app = require('../app')
 
 describe('User profile api', () => {
-  let joe, greg, agent, basketball, football
+  let joe, greg, agent, basketball, football, booking1, booking2
   beforeEach(() => {
+    booking1 = {
+      startDate: new Date(2018, 6, 15),
+      endDate: new Date(2018, 6, 16),
+      payment: 'Cash',
+      price: 7.0,
+    }
+    booking2 = {
+      startDate: new Date(2018, 6, 15),
+      endDate: new Date(2018, 6, 16),
+      payment: 'Credit Card',
+      price: 7.0,
+    }
     basketball = {
       title: 'Basketball',
       price: 5.25,
@@ -36,6 +48,11 @@ describe('User profile api', () => {
         football.userId = greg.id
         return Promise.all([Post.create(basketball), Post.create(football)])
       })
+      .then(([basketball, football]) => {
+        booking1 = { ...booking1, postId: basketball.id, userId: 1 }
+        booking2 = { ...booking2, postId: football.id, userId: 1 }
+        return Promise.all([Booking.create(booking1), Booking.create(booking2)])
+      })
       .then(() => {
         agent = request.agent(app)
         return agent
@@ -62,6 +79,9 @@ describe('User profile api', () => {
       .expect(200)
       .then(res => {
         expect(res.body.length).to.equal(2)
+        const bookingPayments = res.body.map(booking => booking.payment)
+        expect(bookingPayments).to.contain(booking1.payment)
+        expect(bookingPayments).to.contain(booking2.payment)
       })
   })
 })

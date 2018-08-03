@@ -7,4 +7,10 @@ router.get('/posts', (req, res, next) => {
     .catch(err => next(err))
 })
 
+router.get('/bookings', (req, res, next) => {
+  Booking.findAll({ where: { userId: req.user.id }, include: [Post] })
+    .then(bookings => res.json(bookings))
+    .catch(err => next(err))
+})
+
 module.exports = router
