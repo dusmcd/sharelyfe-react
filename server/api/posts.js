@@ -3,7 +3,7 @@ const router = require('express').Router()
 const multer = require('multer')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, '/tmp/imgs')
+    cb(null, '/tmp')
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`)
@@ -45,7 +45,7 @@ router.post('/', upload.single('file'), (req, res, next) => {
       .catch(dberr => next(dberr))
   }
   if (req.file) {
-    return cloudinaryUpload(`/tmp/imgs/${req.file.filename}`, (err, result) => {
+    return cloudinaryUpload(`/tmp/${req.file.filename}`, (err, result) => {
       if (err) console.error(err.message)
       postData.imageUrl = result.secure_url
       createPost(postData)
