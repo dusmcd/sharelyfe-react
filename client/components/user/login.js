@@ -4,6 +4,7 @@ import history from '../../history'
 import { Input } from '../utility'
 import { Form, Button, Message, Container } from 'semantic-ui-react'
 import { loginUserThunk, setErrorAction } from '../../store'
+import user from '../../store/user'
 
 class Login extends React.Component {
   constructor() {
@@ -22,7 +23,7 @@ class Login extends React.Component {
     event.preventDefault()
     this.props.loginUser(this.state).then(() => {
       if (!this.props.error) {
-        history.push('/')
+        history.push('/me')
       } else {
         this.props.user.id && this.props.resetError() && history.push('/')
       }

@@ -30,7 +30,7 @@ class Routes extends React.Component {
         <Route exact path="/posts/new" component={AddPost} />
         <Route path="/posts/:id" component={Post} />
         <Route path="/posts" component={PostList} />
-        <Route path="/:username" component={UserDashboard} />
+        <Route path="/me" component={UserDashboard} />
       </Switch>
     )
   }
