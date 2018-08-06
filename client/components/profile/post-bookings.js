@@ -1,5 +1,6 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
+import { formatDate } from './utility-funcs'
 
 const PostBookings = props => {
   const { bookings } = props
@@ -17,17 +18,6 @@ const PostBookings = props => {
       })}
     </Segment.Group>
   )
-}
-
-function formatDate(dateStr) {
-  const dateObj = new Date(dateStr)
-  const dateDetails = {
-    month: dateObj.getMonth() + 1,
-    day: dateObj.getDate(),
-    year: dateObj.getFullYear(),
-  }
-  const { month, day, year } = dateDetails
-  return `${month}/${day}/${year}`
 }
 
 export default PostBookings
