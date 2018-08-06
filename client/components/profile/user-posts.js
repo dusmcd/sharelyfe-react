@@ -4,7 +4,6 @@ import PostBookings from './post-bookings'
 
 const UserPosts = props => {
   const { posts } = props
-  console.log('MY POSTS:', posts)
   return (
     <div>
       <h2>Your Posts</h2>
