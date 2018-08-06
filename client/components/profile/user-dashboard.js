@@ -1,13 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { getUserPostsThunk } from '../../store'
+import UserPosts from './user-posts'
 
 class UserDashboard extends React.Component {
   componentDidMount() {
-    // fetch data
+    this.props.fetchPosts()
   }
   render() {
-    return <h1>User Dashboard</h1>
+    const { posts } = this.props
+    return <UserPosts posts={posts} />
   }
 }
 
-export default UserDashboard
+const mapState = state => {
+  return {
+    posts: state.profile.posts,
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    fetchPosts: () => dispatch(getUserPostsThunk()),
+  }
+}
+
+export default connect(
+  mapState,
+  mapDispatch
+)(UserDashboard)

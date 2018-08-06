@@ -4,15 +4,17 @@ import thunk from 'redux-thunk'
 import user from './user'
 import post from './post'
 import booking from './booking'
+import profile from './profile'
 
-const guitarApp = combineReducers({ user, post, booking })
+const sharelyfeApp = combineReducers({ user, post, booking, profile })
 const logger = createLogger({
   collapsed: true,
 })
-const store = createStore(guitarApp, applyMiddleware(thunk, logger))
+const store = createStore(sharelyfeApp, applyMiddleware(thunk, logger))
 
 export default store
 
 export * from './user'
 export * from './post'
 export * from './booking'
+export * from './profile'
