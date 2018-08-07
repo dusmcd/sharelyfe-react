@@ -18,11 +18,13 @@ const UserNav = props => {
       {isLoggedIn ? (
         <UserContainer>
           <li>
+            <Link to="/me">My Profile</Link>
+          </li>
+          <li>
             <a href="#" onClick={() => props.logout()}>
               Logout
             </a>
           </li>
-
           <li>
             <Link to="/posts/new">
               <Button icon labelPosition="right">
