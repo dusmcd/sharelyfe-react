@@ -13,14 +13,15 @@ const upload = multer({ storage })
 const cloudinaryUpload = require('cloudinary').v2.uploader.upload
 
 router.get('/', (req, res, next) => {
-  if (req.query) {
-    Post.filterPosts(req.query)
+  if (req.query.search) {
+    Post.filterPosts(req.query.search)
+      .then(posts => res.json(posts))
+      .catch(err => next(err))
+  } else {
+    Post.findAll()
       .then(posts => res.json(posts))
       .catch(err => next(err))
   }
-  Post.findAll()
-    .then(posts => res.json(posts))
-    .catch(err => next(err))
 })
 
 router.get('/:id', (req, res, next) => {
