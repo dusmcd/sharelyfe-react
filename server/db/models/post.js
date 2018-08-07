@@ -1,5 +1,6 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 const Post = db.define('post', {
   imageUrl: {
@@ -25,5 +26,25 @@ const Post = db.define('post', {
     },
   },
 })
+
+Post.filterPosts = function(queryString) {
+  queryString = `%${queryString}%`
+  return this.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.like]: queryString,
+          },
+        },
+        {
+          description: {
+            [Op.like]: queryString,
+          },
+        },
+      ],
+    },
+  })
+}
 
 module.exports = Post
