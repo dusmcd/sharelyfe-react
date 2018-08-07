@@ -7,6 +7,7 @@ const GET_POSTS = 'GET_POSTS'
 const GET_ONE_POST = 'GET_ONE_POST'
 const ADD_POST = 'ADD_POST'
 const HANDLE_INPUT = 'HANDLE_INPUT'
+const HANDLE_SEARCH = 'HANDLE_SEARCH'
 
 /*
   ACTION CREATORS
@@ -34,6 +35,12 @@ export const handleInputAction = formData => {
   return {
     type: HANDLE_INPUT,
     formData,
+  }
+}
+const handleSearchAction = queryString => {
+  return {
+    type: HANDLE_SEARCH,
+    queryString,
   }
 }
 
@@ -69,6 +76,15 @@ export const addPostThunk = ({ file, title, description, price }) => {
       .catch(err => console.error(err))
   }
 }
+export const searchPostsThunk = queryString => {
+  return dispatch => {
+    dispatch(handleSearchAction(queryString))
+    return axios
+      .get(`api/posts/?search=${queryString}`)
+      .then(res => dispatch(getPostsAction(res.data)))
+      .catch(err => console.error('Error in thunk:', err.message))
+  }
+}
 
 /*
   REDUCER
@@ -78,6 +94,7 @@ const initialState = {
   currentPost: {},
   posts: [],
   input: { title: '', description: '', price: '', file: null },
+  queryString: null,
 }
 
 export default function(state = initialState, action) {
@@ -93,6 +110,8 @@ export default function(state = initialState, action) {
         ...state,
         input: { ...state.input, ...action.formData },
       }
+    case HANDLE_SEARCH:
+      return { ...state, queryString: action.queryString }
     default:
       return state
   }
