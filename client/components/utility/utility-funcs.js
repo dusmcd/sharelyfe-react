@@ -1,5 +1,4 @@
-export function formatDate(dateStr) {
-  const dateObj = new Date(dateStr)
+export function formatDate(dateObj) {
   const dateDetails = {
     month: dateObj.getMonth() + 1,
     day: dateObj.getDate(),

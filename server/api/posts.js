@@ -25,8 +25,9 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', (req, res, next) => {
-  Post.findById(req.params.id, { include: [User] })
+  Post.findById(req.params.id, { include: [User, Booking] })
     .then(post => {
+      post.dataValues.bookings = post.formatBookings()
       return res.json(post)
     })
     .catch(err => next(err))

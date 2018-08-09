@@ -8,6 +8,7 @@ const GET_ONE_POST = 'GET_ONE_POST'
 const ADD_POST = 'ADD_POST'
 const HANDLE_INPUT = 'HANDLE_INPUT'
 const HANDLE_SEARCH = 'HANDLE_SEARCH'
+const SET_FETCH = 'SET_FETCH'
 
 /*
   ACTION CREATORS
@@ -43,6 +44,12 @@ const handleSearchAction = queryString => {
     queryString,
   }
 }
+export const setFetchAction = status => {
+  return {
+    type: SET_FETCH,
+    status,
+  }
+}
 
 /*
   THUNKS
@@ -57,9 +64,13 @@ export const getPostsThunk = () => {
 }
 export const getPostThunk = postId => {
   return dispatch => {
+    dispatch(setFetchAction(true))
     return axios
       .get(`/api/posts/${postId}`)
-      .then(res => dispatch(getOnePostAction(res.data)))
+      .then(res => {
+        dispatch(getOnePostAction(res.data))
+        dispatch(setFetchAction(false))
+      })
       .catch(err => console.error(err))
   }
 }
@@ -95,6 +106,7 @@ const initialState = {
   posts: [],
   input: { title: '', description: '', price: '', file: null },
   queryString: null,
+  isFetching: true,
 }
 
 export default function(state = initialState, action) {
@@ -112,6 +124,8 @@ export default function(state = initialState, action) {
       }
     case HANDLE_SEARCH:
       return { ...state, queryString: action.queryString }
+    case SET_FETCH:
+      return { ...state, isFetching: action.status }
     default:
       return state
   }

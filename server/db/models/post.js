@@ -48,4 +48,12 @@ Post.filterPosts = function(queryString) {
   })
 }
 
+Post.prototype.formatBookings = function() {
+  const bookingMap = {}
+  this.bookings.forEach(booking => {
+    bookingMap[booking.startDate] = { [booking.endDate]: true }
+  })
+  return bookingMap
+}
+
 module.exports = Post

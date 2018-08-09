@@ -1,7 +1,7 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
 import { PostDetail, ImgContainer, InfoContainer, Thumbnail } from './styles'
-import { formatDate } from './utility-funcs'
+import { formatDate } from '../utility/utility-funcs'
 
 const UserBookings = props => {
   const { bookings } = props
@@ -21,9 +21,9 @@ const UserBookings = props => {
                 <p>${post.price}/day</p>
                 <p>{post.description}</p>
                 <p>
-                  {`Reserved from ${formatDate(startDate)} to ${formatDate(
-                    endDate
-                  )}`}
+                  {`Reserved from ${formatDate(
+                    new Date(startDate)
+                  )} to ${formatDate(new Date(endDate))}`}
                 </p>
               </InfoContainer>
             </PostDetail>

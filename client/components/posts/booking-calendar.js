@@ -2,6 +2,7 @@ import React from 'react'
 import Calendar from 'react-calendar'
 import { connect } from 'react-redux'
 import { setDateAction } from '../../store'
+import { formatDate } from '../utility/utility-funcs'
 
 class BookingCalendar extends React.Component {
   componentDidMount() {
@@ -12,7 +13,22 @@ class BookingCalendar extends React.Component {
     this.props.setDates(dates)
   }
   render() {
-    return <Calendar selectRange onChange={this.handleDateSelection} />
+    const { post, isFetching } = this.props
+    if (isFetching) return <div>LOADING...</div>
+    return (
+      <Calendar
+        selectRange
+        onChange={this.handleDateSelection}
+        minDate={new Date(Date.now())}
+        tileDisabled={({ view }) => console.log('VIEW:', view)}
+      />
+    )
+  }
+}
+
+const mapState = state => {
+  return {
+    isFetching: state.post.isFetching,
   }
 }
 
@@ -23,6 +39,6 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(
-  null,
+  mapState,
   mapDispatch
 )(BookingCalendar)
