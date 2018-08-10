@@ -1,6 +1,7 @@
 const { Post, User, Booking } = require('../db/models')
 const router = require('express').Router()
 const multer = require('multer')
+const Op = require('sequelize').Op
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '/tmp')
@@ -25,7 +26,22 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', (req, res, next) => {
-  Post.findById(req.params.id, { include: [User, Booking] })
+  Post.findById(req.params.id, {
+    include: [
+      User,
+      {
+        model: Booking,
+        where: {
+          startDate: {
+            [Op.gt]: Date.now(),
+          },
+          endDate: {
+            [Op.lt]: Date.now() + 90 * 86400000, // 90 days out
+          },
+        },
+      },
+    ],
+  })
     .then(post => {
       post.dataValues.bookings = post.formatBookings()
       return res.json(post)

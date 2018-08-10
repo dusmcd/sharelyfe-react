@@ -48,10 +48,32 @@ Post.filterPosts = function(queryString) {
   })
 }
 
+function formatDate(dateObj) {
+  const dateDetails = {
+    month: dateObj.getMonth() + 1,
+    day: dateObj.getDate(),
+    year: dateObj.getFullYear(),
+  }
+  const { month, day, year } = dateDetails
+  return `${month}/${day}/${year}`
+}
+
 Post.prototype.formatBookings = function() {
+  // puts the startDate and everything between the startDate and the endDate
+  // in an object literal (Hash Table). Not including the endDate
+
   const bookingMap = {}
   this.bookings.forEach(booking => {
-    bookingMap[booking.startDate] = { [booking.endDate]: true }
+    let startDate = booking.startDate
+    bookingMap[formatDate(booking.startDate)] = true
+    const millisecondsBetween = booking.endDate.valueOf() - startDate.valueof()
+    const daysBetween = millisecondsBetween / (1000 * 60 * 60 * 24) - 1
+    for (let i = 1; i <= daysBetween; i++) {
+      // there are 86,400,000 milliseconds in a day
+      const nextDateValue = startDate.valueOf() + 86400000
+      bookingMap[formatDate(new Date(nextDateValue))] = true
+      startDate = new Date(nextDateValue)
+    }
   })
   return bookingMap
 }

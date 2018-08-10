@@ -9,6 +9,11 @@ class BookingCalendar extends React.Component {
     // black out dates that are unavailable
   }
 
+  dateIsReserved = ({ date }) => {
+    const { bookings } = this.props.post
+    console.log('BOOKINGS:', bookings)
+  }
+
   handleDateSelection = dates => {
     this.props.setDates(dates)
   }
@@ -20,7 +25,7 @@ class BookingCalendar extends React.Component {
         selectRange
         onChange={this.handleDateSelection}
         minDate={new Date(Date.now())}
-        tileDisabled={({ view }) => console.log('VIEW:', view)}
+        tileDisabled={this.dateIsReserved}
       />
     )
   }
