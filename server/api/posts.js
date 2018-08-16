@@ -27,23 +27,10 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   Post.findById(req.params.id, {
-    include: [
-      User,
-      {
-        model: Booking,
-        where: {
-          startDate: {
-            [Op.gt]: Date.now(),
-          },
-          endDate: {
-            [Op.lt]: Date.now() + 90 * 86400000, // 90 days out
-          },
-        },
-      },
-    ],
+    include: [User, Booking],
+    order: [[Booking, 'startDate']],
   })
     .then(post => {
-      post.dataValues.bookings = post.formatBookings()
       return res.json(post)
     })
     .catch(err => next(err))
