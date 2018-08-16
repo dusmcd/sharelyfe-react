@@ -63,8 +63,7 @@ Post.prototype.formatBookings = function() {
   // in an object literal (Hash Table). Not including the endDate
 
   const bookingMap = {}
-  const currentBookings = filterBookings(this.bookings)
-  currentBookings.forEach(booking => {
+  this.bookings.forEach(booking => {
     let startDate = booking.startDate
     bookingMap[formatDate(booking.startDate)] = true
     const millisecondsBetween = booking.endDate.valueOf() - startDate.valueOf()
@@ -77,30 +76,6 @@ Post.prototype.formatBookings = function() {
     }
   })
   return bookingMap
-}
-
-function filterBookings(bookings) {
-  let middle = Math.floor(bookings.length / 2)
-  let leftBound = 0
-  let rightBound = bookings.length - 1
-  let filteredBookings = []
-  let passedOver = false
-
-  while (filteredBookings.length) {
-    filteredBookings = bookings.slice(leftBound, rightBound + 1)
-
-    if (filteredBookings[middle] < Date.now()) {
-      leftBound = middle + 1
-      passedOver = true
-    } else {
-      if (passedOver) {
-        // do something
-      }
-      rightBound = middle - 1
-      passedOver = false
-    }
-  }
-  return []
 }
 
 module.exports = Post
