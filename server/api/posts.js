@@ -37,7 +37,14 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.get('/:id/bookings', (req, res, next) => {
-  Booking.findAll({ where: { postId: req.params.id } })
+  Booking.findAll({
+    where: {
+      postId: req.params.id,
+      startDate: {
+        [Op.gte]: new Date(Date.now()),
+      },
+    },
+  })
     .then(bookings => res.json(bookings))
     .catch(err => next(err))
 })

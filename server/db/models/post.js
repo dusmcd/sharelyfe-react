@@ -78,4 +78,35 @@ Post.prototype.formatBookings = function() {
   return bookingMap
 }
 
+function filterBookings(bookings) {
+  let leftBound = 0,
+    rightBound = bookings.length - 1
+  let middle = Math.floor(bookings.length / 2),
+    wasGreater = false
+  let filteredBookings = []
+
+  while (filteredBookings.length) {
+    filteredBookings = bookings.slice(leftBound, rightBound + 1)
+    if (filteredBookings[middle] > Date.now()) {
+      rightBound = middle - 1
+      wasGreater = true
+    } else if (filteredBookings[middle] < Date.now()) {
+      leftBound = middle + 1
+      if (wasGreater) {
+        filteredBookings = bookings.slice(leftBound, rightBound + 1)
+        return findCrossover(filteredBookings)
+      }
+    }
+  }
+  return []
+}
+
+function findCrossover(filteredBookings) {
+  for (let i = 0; i < filteredBookings.length; i++) {
+    if (filteredBookings[i] > Date.now()) {
+      return filteredBookings
+    }
+  }
+}
+
 module.exports = Post
