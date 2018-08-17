@@ -63,7 +63,8 @@ Post.prototype.formatBookings = function() {
   // in an object literal (Hash Table). Not including the endDate
 
   const bookingMap = {}
-  this.bookings.forEach(booking => {
+  const bookings = filterBookings(this.bookings)
+  bookings.forEach(booking => {
     let startDate = booking.startDate
     bookingMap[formatDate(booking.startDate)] = true
     const millisecondsBetween = booking.endDate.valueOf() - startDate.valueOf()
@@ -79,23 +80,28 @@ Post.prototype.formatBookings = function() {
 }
 
 function filterBookings(bookings) {
-  let leftBound = 0,
-    rightBound = bookings.length - 1
-  let middle = Math.floor(bookings.length / 2),
-    wasGreater = false
-  let filteredBookings = []
+  // filters bookings array to only include those that have a start date
+  // that is after the current day. Uses binary search. When the middle
+  // goes from greater than the current day to less than current day (in subsequent iteration)
+  // then we can narrow down where to slice the original array
 
-  while (filteredBookings.length) {
-    filteredBookings = bookings.slice(leftBound, rightBound + 1)
-    if (filteredBookings[middle] > Date.now()) {
+  let leftBound = 0,
+    wasGreater = false,
+    rightBound = bookings.length - 1,
+    middle = Math.floor((rightBound - leftBound) / 2)
+
+  while (rightBound !== middle) {
+    middle = leftBound + Math.floor((rightBound - leftBound) / 2)
+    if (bookings[middle].startDate > Date.now()) {
       rightBound = middle - 1
       wasGreater = true
-    } else if (filteredBookings[middle] < Date.now()) {
+    } else {
       leftBound = middle + 1
       if (wasGreater) {
-        filteredBookings = bookings.slice(leftBound, rightBound + 1)
-        return findCrossover(filteredBookings)
+        rightBound = bookings.length
+        return findCrossover(bookings.slice(leftBound, rightBound))
       }
+      wasGreater = false
     }
   }
   return []
@@ -103,8 +109,8 @@ function filterBookings(bookings) {
 
 function findCrossover(filteredBookings) {
   for (let i = 0; i < filteredBookings.length; i++) {
-    if (filteredBookings[i] > Date.now()) {
-      return filteredBookings
+    if (filteredBookings[i].startDate > Date.now()) {
+      return filteredBookings.slice(i, filteredBookings.length)
     }
   }
 }
