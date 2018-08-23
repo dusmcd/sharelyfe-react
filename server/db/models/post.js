@@ -61,7 +61,6 @@ function formatDate(dateObj) {
 Post.prototype.formatBookings = function() {
   // puts the startDate and everything between the startDate and the endDate
   // in an object literal (Hash Table). Not including the endDate
-
   const bookingMap = {}
   const bookings = filterBookings(this.bookings)
   bookings.forEach(booking => {
@@ -76,7 +75,7 @@ Post.prototype.formatBookings = function() {
       startDate = new Date(nextDateValue)
     }
   })
-  return bookingMap
+  this.dataValues.datesReserved = bookingMap
 }
 
 function filterBookings(bookings) {
@@ -84,7 +83,6 @@ function filterBookings(bookings) {
   // that is after the current day. Uses binary search. When the middle
   // goes from greater than the current day to less than current day (in subsequent iteration)
   // then we can narrow down where to slice the original array
-
   let leftBound = 0,
     wasGreater = false,
     rightBound = bookings.length - 1,
@@ -92,7 +90,7 @@ function filterBookings(bookings) {
 
   while (rightBound !== middle) {
     middle = leftBound + Math.floor((rightBound - leftBound) / 2)
-    if (bookings[middle].startDate > Date.now()) {
+    if (middle >= 0 && bookings[middle].dataValues.startDate > Date.now()) {
       rightBound = middle - 1
       wasGreater = true
     } else {
@@ -109,7 +107,7 @@ function filterBookings(bookings) {
 
 function findCrossover(filteredBookings) {
   for (let i = 0; i < filteredBookings.length; i++) {
-    if (filteredBookings[i].startDate > Date.now()) {
+    if (filteredBookings[i].dataValues.startDate > Date.now()) {
       return filteredBookings.slice(i, filteredBookings.length)
     }
   }

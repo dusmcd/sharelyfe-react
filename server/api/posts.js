@@ -31,6 +31,7 @@ router.get('/:id', (req, res, next) => {
     order: [[Booking, 'startDate']],
   })
     .then(post => {
+      post.formatBookings()
       return res.json(post)
     })
     .catch(err => next(err))

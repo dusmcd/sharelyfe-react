@@ -10,8 +10,7 @@ class BookingCalendar extends React.Component {
   }
 
   dateIsReserved = ({ date }) => {
-    const { bookings } = this.props.post
-    console.log('BOOKINGS:', bookings)
+    console.log('POST:', this.props.post)
   }
 
   handleDateSelection = dates => {
