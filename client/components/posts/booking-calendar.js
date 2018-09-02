@@ -14,6 +14,7 @@ class BookingCalendar extends React.Component {
     this.props.setDates(dates)
   }
   render() {
+    console.log('BOOKINGS:', this.props.post.bookings)
     const { isFetching } = this.props
     if (isFetching) return <div>LOADING...</div>
     return (
