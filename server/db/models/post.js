@@ -84,6 +84,8 @@ function filterBookings(bookings) {
   // that is after the current day. Uses binary search. When the middle
   // goes from greater than the current day to less than current day (in subsequent iteration)
   // then we can narrow down where to slice the original array
+  if (bookings.length < 5) return bookings
+
   let leftBound = 0,
     wasGreater = false,
     rightBound = bookings.length - 1,
