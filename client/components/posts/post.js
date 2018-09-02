@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Image, Container, Card, Modal, Button } from 'semantic-ui-react'
-import { getPostThunk } from '../../store'
+import { Image, Container, Card, Button } from 'semantic-ui-react'
+import { getPostThunk, setFetchAction } from '../../store'
 import BookingCalendar from './booking-calendar'
 import ConfirmationPopup from './confirmation-popup'
 
@@ -33,7 +33,7 @@ class Post extends React.Component {
             <h3>{`$${post.price}`}</h3>
           </Card.Content>
         </Card>
-        <BookingCalendar />
+        <BookingCalendar post={post} />
         <ConfirmationPopup Trigger={Trigger} post={post} />
       </Container>
     )
@@ -48,6 +48,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     fetchPost: postId => dispatch(getPostThunk(postId)),
+    setFetch: status => dispatch(setFetchAction(status)),
   }
 }
 

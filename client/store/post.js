@@ -7,6 +7,8 @@ const GET_POSTS = 'GET_POSTS'
 const GET_ONE_POST = 'GET_ONE_POST'
 const ADD_POST = 'ADD_POST'
 const HANDLE_INPUT = 'HANDLE_INPUT'
+const HANDLE_SEARCH = 'HANDLE_SEARCH'
+const SET_FETCH = 'SET_FETCH'
 
 /*
   ACTION CREATORS
@@ -36,6 +38,18 @@ export const handleInputAction = formData => {
     formData,
   }
 }
+const handleSearchAction = queryString => {
+  return {
+    type: HANDLE_SEARCH,
+    queryString,
+  }
+}
+export const setFetchAction = status => {
+  return {
+    type: SET_FETCH,
+    status,
+  }
+}
 
 /*
   THUNKS
@@ -50,9 +64,13 @@ export const getPostsThunk = () => {
 }
 export const getPostThunk = postId => {
   return dispatch => {
+    dispatch(setFetchAction(true))
     return axios
       .get(`/api/posts/${postId}`)
-      .then(res => dispatch(getOnePostAction(res.data)))
+      .then(res => {
+        dispatch(getOnePostAction(res.data))
+        dispatch(setFetchAction(false))
+      })
       .catch(err => console.error(err))
   }
 }
@@ -69,6 +87,15 @@ export const addPostThunk = ({ file, title, description, price }) => {
       .catch(err => console.error(err))
   }
 }
+export const searchPostsThunk = queryString => {
+  return dispatch => {
+    dispatch(handleSearchAction(queryString))
+    return axios
+      .get(`api/posts/?search=${queryString}`)
+      .then(res => dispatch(getPostsAction(res.data)))
+      .catch(err => console.error('Error in thunk:', err.message))
+  }
+}
 
 /*
   REDUCER
@@ -78,6 +105,8 @@ const initialState = {
   currentPost: {},
   posts: [],
   input: { title: '', description: '', price: '', file: null },
+  queryString: null,
+  isFetching: true,
 }
 
 export default function(state = initialState, action) {
@@ -93,6 +122,10 @@ export default function(state = initialState, action) {
         ...state,
         input: { ...state.input, ...action.formData },
       }
+    case HANDLE_SEARCH:
+      return { ...state, queryString: action.queryString }
+    case SET_FETCH:
+      return { ...state, isFetching: action.status }
     default:
       return state
   }

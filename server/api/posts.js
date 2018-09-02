@@ -1,6 +1,7 @@
 const { Post, User, Booking } = require('../db/models')
 const router = require('express').Router()
 const multer = require('multer')
+const Op = require('sequelize').Op
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '/tmp')
@@ -13,21 +14,38 @@ const upload = multer({ storage })
 const cloudinaryUpload = require('cloudinary').v2.uploader.upload
 
 router.get('/', (req, res, next) => {
-  Post.findAll()
-    .then(posts => res.json(posts))
-    .catch(err => next(err))
+  if (req.query.search) {
+    Post.filterPosts(req.query.search)
+      .then(posts => res.json(posts))
+      .catch(err => next(err))
+  } else {
+    Post.findAll()
+      .then(posts => res.json(posts))
+      .catch(err => next(err))
+  }
 })
 
 router.get('/:id', (req, res, next) => {
-  Post.findById(req.params.id, { include: [User] })
+  Post.findById(req.params.id, {
+    include: [User, Booking],
+    order: [[Booking, 'startDate']],
+  })
     .then(post => {
+      post.formatBookings()
       return res.json(post)
     })
     .catch(err => next(err))
 })
 
 router.get('/:id/bookings', (req, res, next) => {
-  Booking.findAll({ where: { postId: req.params.id } })
+  Booking.findAll({
+    where: {
+      postId: req.params.id,
+      startDate: {
+        [Op.gte]: new Date(Date.now()),
+      },
+    },
+  })
     .then(bookings => res.json(bookings))
     .catch(err => next(err))
 })

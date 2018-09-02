@@ -31,14 +31,14 @@ describe('post api', () => {
       password: '1234',
     }
     booking1 = {
-      startDate: new Date(2018, 6, 15),
-      endDate: new Date(2018, 6, 16),
+      startDate: new Date(Date.now() + 5 * 86400000),
+      endDate: new Date(Date.now() + 80 * 86400000),
       payment: 'Cash',
       price: 7.0,
     }
     booking2 = {
-      startDate: new Date(2018, 6, 15),
-      endDate: new Date(2018, 6, 16),
+      startDate: new Date(Date.now() + 3 * 86400000),
+      endDate: new Date(Date.now() + 80 * 86400000),
       payment: 'Credit Card',
       price: 7.0,
     }
@@ -95,6 +95,10 @@ describe('post api', () => {
         expect(+res.body.price).to.equal(basketball.price)
         expect(res.body.user).to.not.equal(undefined)
         expect(res.body.user.firstName).to.equal(tom.firstName)
+        expect(res.body.bookings.length).to.equal(2)
+        expect(res.body.bookings[0].payment).to.equal(booking2.payment)
+        expect(res.body.datesReserved).to.be.an('object')
+        expect(res.body.datesReserved['8/25/2018']).to.equal(true)
       })
   })
   it('creates a post', () => {

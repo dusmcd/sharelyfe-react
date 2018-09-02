@@ -60,7 +60,7 @@ app.get('*', (req, res, next) => {
 
 // error handling middleware
 app.use((err, req, res, next) => {
-  console.error('Error message:', err.message)
+  console.error('Error message:', err.stack)
   res.status(err.status || 500).send(err.message || 'Internal Server Error')
 })
 app.use((req, res, next) => {
