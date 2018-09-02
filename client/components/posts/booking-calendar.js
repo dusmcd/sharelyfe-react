@@ -5,19 +5,16 @@ import { setDateAction } from '../../store'
 import { formatDate } from '../utility/utility-funcs'
 
 class BookingCalendar extends React.Component {
-  componentDidMount() {
-    // black out dates that are unavailable
-  }
-
   dateIsReserved = ({ date }) => {
-    console.log('POST:', this.props.post)
+    const { post } = this.props
+    if (post.datesReserved[formatDate(date)]) return true
   }
 
   handleDateSelection = dates => {
     this.props.setDates(dates)
   }
   render() {
-    const { post, isFetching } = this.props
+    const { isFetching } = this.props
     if (isFetching) return <div>LOADING...</div>
     return (
       <Calendar

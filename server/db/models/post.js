@@ -75,6 +75,8 @@ Post.prototype.formatBookings = function() {
       startDate = new Date(nextDateValue)
     }
   })
+  console.log('bookingMap:', bookingMap)
+
   this.dataValues.datesReserved = bookingMap
 }
 
