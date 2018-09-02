@@ -63,7 +63,6 @@ Post.prototype.formatBookings = function() {
   // in an object literal (Hash Table). Not including the endDate
   const bookingMap = {}
   const bookings = filterBookings(this.bookings)
-  console.log('BOOKINGS:', this.bookings)
   bookings.forEach(booking => {
     let startDate = booking.startDate
     bookingMap[formatDate(booking.startDate)] = true
