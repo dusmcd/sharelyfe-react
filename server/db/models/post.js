@@ -80,7 +80,9 @@ function filterByDistance(posts, distanceRadius, origin) {
   // use google maps api to filter by specified distance
   const destinations = posts
     .map(post => {
-      return `${post.address}+${post.city}+${post.state}+${post.zipcode}`
+      return `${post.address.replace(/\s/g, '+')}+${post.city}+${post.state}+${
+        post.zipcode
+      }`
     })
     .join('|')
   const distances = axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations}&key=${
