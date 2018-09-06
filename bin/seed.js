@@ -53,12 +53,20 @@ const posts = [
     title: 'Parking for Something Else',
     description: "You're going to like the way you park. I guarantee it",
     price: 7,
+    address: '351 E Center Street',
+    city: 'Provo',
+    state: 'UT',
+    zipcode: '84606',
   },
   {
     imageUrl: 'http://www.carfab.com/wp-content/uploads/2017/04/parking.png',
     title: 'Parking for Concert',
     description: 'Only cool people park here. You are cool, right??',
     price: 6,
+    address: '351 E Center Street',
+    city: 'Provo',
+    state: 'UT',
+    zipcode: '84606',
   },
   {
     imageUrl:
@@ -66,6 +74,10 @@ const posts = [
     title: 'Parking for My House',
     description: 'Get of my lawn!',
     price: 8,
+    address: '5020 S Lake Shore Drive',
+    city: 'Chicago',
+    state: 'IL',
+    zipcode: '60615',
   },
   {
     imageUrl:
@@ -73,6 +85,10 @@ const posts = [
     title: 'Parking for Disney',
     description: 'You can park here if you really want to',
     price: 5,
+    address: '5200 S University',
+    city: 'Chicago',
+    state: 'IL',
+    zipcode: '60615',
   },
   {
     imageUrl:
@@ -80,6 +96,10 @@ const posts = [
     title: 'Parking for Disney',
     description: 'You can park here if you really want to',
     price: 5,
+    address: '21721 Johnstone Drive',
+    city: 'Lake Forest',
+    state: 'CA',
+    zipcode: '92630',
   },
 ]
 const endDate = new Date(2018, 10, 16)
