@@ -29,18 +29,17 @@ const Post = db.define('post', {
 
 Post.filterPosts = function(queryString) {
   queryString = `%${queryString}%`
-  console.log('queryString:', queryString)
   return this.findAll({
     where: {
       [Op.or]: [
         {
           title: {
-            [Op.like]: queryString,
+            [Op.iLike]: queryString,
           },
         },
         {
           description: {
-            [Op.like]: queryString,
+            [Op.iLike]: queryString,
           },
         },
       ],

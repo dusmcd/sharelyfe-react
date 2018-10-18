@@ -6,6 +6,7 @@ import axios from 'axios'
 const SET_DATE = 'SET_DATE'
 const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
 const BOOKING_COMPLETE = 'BOOKING_COMPLETE'
+const SET_BUTTON_STATUS = 'SET_BUTTON_STATUS'
 /*
   ACTION CREATORS
 */
@@ -24,6 +25,12 @@ export const setLoadStatusAction = status => {
 export const bookingCompleteAction = status => {
   return {
     type: BOOKING_COMPLETE,
+    status,
+  }
+}
+export const buttonStatusAction = status => {
+  return {
+    type: SET_BUTTON_STATUS,
     status,
   }
 }
@@ -53,6 +60,7 @@ const initialState = {
   dates: [],
   isLoading: false,
   bookingComplete: false,
+  buttonDisabled: false,
 }
 
 export default (state = initialState, action) => {
@@ -63,6 +71,8 @@ export default (state = initialState, action) => {
       return { ...state, isLoading: action.status }
     case BOOKING_COMPLETE:
       return { ...state, bookingComplete: action.status }
+    case SET_BUTTON_STATUS:
+      return { ...state, buttonDisabled: action.status }
     default:
       return state
   }

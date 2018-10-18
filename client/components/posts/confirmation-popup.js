@@ -5,22 +5,29 @@ import {
   createBookingThunk,
   setLoadStatusAction,
   bookingCompleteAction,
+  buttonStatusAction,
+  setDateAction,
 } from '../../store'
 
 class ConfirmationPopup extends React.Component {
   componentDidMount() {
     this.props.setStatus(false)
     this.props.setBookingStatus(false)
+    this.props.setButtonStatus(false)
   }
   createBooking = (postId, formData) => {
-    this.props.createBooking(postId, formData)
+    this.props
+      .createBooking(postId, formData)
+      .then(() => this.props.setButtonStatus(true))
   }
   handleClose = () => {
     this.props.setBookingStatus(false)
+    // if dates are empty then the confirmation popup trigger won't appear
+    this.props.clearDates()
   }
 
   render() {
-    const { post, dates, isLoading, bookingComplete } = this.props
+    const { post, dates, isLoading, bookingComplete, disabled } = this.props
     if (!dates.length) return null
     const bookingData = {
       startDate: dates[0],
@@ -48,7 +55,10 @@ class ConfirmationPopup extends React.Component {
               <Table.Body>
                 <Table.Row>
                   <Table.Cell singleLine>{post.title}</Table.Cell>
-                  <Table.Cell>${post.price}/day</Table.Cell>
+                  <Table.Cell>
+                    ${post.price}
+                    /day
+                  </Table.Cell>
                   <Table.Cell>
                     {dates[0].toDateString()}-{dates[1].toDateString()}
                   </Table.Cell>
@@ -70,6 +80,7 @@ class ConfirmationPopup extends React.Component {
             onClick={() => this.createBooking(post.id, bookingData)}
             type="submit"
             primary
+            disabled={disabled}
           >
             Confirm Reservation
           </Button>
@@ -84,6 +95,7 @@ const mapState = state => {
     dates: state.booking.dates,
     isLoading: state.booking.isLoading,
     bookingComplete: state.booking.bookingComplete,
+    disabled: state.booking.buttonDisabled,
   }
 }
 const mapDispatch = dispatch => {
@@ -92,6 +104,8 @@ const mapDispatch = dispatch => {
       dispatch(createBookingThunk(postId, formData)),
     setStatus: status => dispatch(setLoadStatusAction(status)),
     setBookingStatus: status => dispatch(bookingCompleteAction(status)),
+    setButtonStatus: status => dispatch(buttonStatusAction(status)),
+    clearDates: () => dispatch(setDateAction([])),
   }
 }
 
