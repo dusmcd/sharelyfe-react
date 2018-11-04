@@ -52,15 +52,10 @@ const Post = db.define('post', {
   },
 })
 
-<<<<<<< HEAD
 Post.filterPosts = function(queryParams) {
   const queryString = `%${queryParams.search}%`
   const distanceRadius = queryParams.radius
   const origin = queryParams.origin
-=======
-Post.filterPosts = function(queryString) {
-  queryString = `%${queryString}%`
->>>>>>> 7f90d0a926b506019e5309a1ef4e2484661332e6
   return this.findAll({
     where: {
       [Op.or]: [
@@ -90,10 +85,18 @@ function filterByDistance(posts, distanceRadius, origin) {
       }`
     })
     .join('|')
-  const distances = axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations}&key=${
+  const requestUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations}&key=${
     process.env.GOOGLE_API_KEY
   }
-  `)
+`
+  axios.get(requestUrl).then(res => {
+    const distanceResults = res.data.rows[0].elements
+    const filteredPosts = posts.filter((post, i) => {
+      if (distanceResults[i].distance.value <= +distanceRadius) return true
+    })
+
+    return filteredPosts
+  })
 }
 
 function formatDate(dateObj) {

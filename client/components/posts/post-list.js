@@ -13,6 +13,7 @@ class PostList extends React.Component {
   }
   render() {
     const { posts } = this.props
+    if (!posts) return <h2>No results found</h2>
     return (
       <div className="ui stackable grid container">
         {posts.map(post => {
