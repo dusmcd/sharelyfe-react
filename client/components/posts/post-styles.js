@@ -7,3 +7,6 @@ export const PostContainer = styled.div`
   width: 80%;
   margin: 0 auto;
 `
+export const CalendarContainer = styled.div`
+  margin-top: 25px;
+`

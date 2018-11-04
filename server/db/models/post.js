@@ -52,21 +52,26 @@ const Post = db.define('post', {
   },
 })
 
+<<<<<<< HEAD
 Post.filterPosts = function(queryParams) {
   const queryString = `%${queryParams.search}%`
   const distanceRadius = queryParams.radius
   const origin = queryParams.origin
+=======
+Post.filterPosts = function(queryString) {
+  queryString = `%${queryString}%`
+>>>>>>> 7f90d0a926b506019e5309a1ef4e2484661332e6
   return this.findAll({
     where: {
       [Op.or]: [
         {
           title: {
-            [Op.like]: queryString,
+            [Op.iLike]: queryString,
           },
         },
         {
           description: {
-            [Op.like]: queryString,
+            [Op.iLike]: queryString,
           },
         },
       ],
