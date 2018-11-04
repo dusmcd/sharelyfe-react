@@ -4,6 +4,7 @@ import { Image, Container, Card, Button } from 'semantic-ui-react'
 import { getPostThunk, setFetchAction } from '../../store'
 import BookingCalendar from './booking-calendar'
 import ConfirmationPopup from './confirmation-popup'
+import { CalendarContainer } from './post-styles'
 
 class Post extends React.Component {
   componentDidMount() {
@@ -33,8 +34,10 @@ class Post extends React.Component {
             <h3>{`$${post.price}`}</h3>
           </Card.Content>
         </Card>
-        <BookingCalendar post={post} />
         <ConfirmationPopup Trigger={Trigger} post={post} />
+        <CalendarContainer>
+          <BookingCalendar post={post} />
+        </CalendarContainer>
       </Container>
     )
   }
