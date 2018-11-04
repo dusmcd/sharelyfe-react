@@ -91,7 +91,9 @@ export const searchPostsThunk = queryString => {
   return dispatch => {
     dispatch(handleSearchAction(queryString))
     return axios
-      .get(`api/posts/?search=${queryString}`)
+      .get(
+        `api/posts/?search=${queryString}&origin=5200+S+Blackstone+Chicago+IL&distanceRadius=5`
+      )
       .then(res => dispatch(getPostsAction(res.data)))
       .catch(err => console.error('Error in thunk:', err.message))
   }
