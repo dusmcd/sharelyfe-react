@@ -15,8 +15,10 @@ const cloudinaryUpload = require('cloudinary').v2.uploader.upload
 
 router.get('/', (req, res, next) => {
   if (req.query.search) {
-    Post.filterPosts(req.query)
-      .then(posts => res.json(posts))
+    return Post.filterPosts(req.query)
+      .then(posts => {
+        return res.json(posts)
+      })
       .catch(err => next(err))
   } else {
     Post.findAll()

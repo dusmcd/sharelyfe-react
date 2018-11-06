@@ -54,8 +54,7 @@ const Post = db.define('post', {
 
 Post.filterPosts = function(queryParams) {
   const queryString = `%${queryParams.search}%`
-  const distanceRadius = queryParams.radius
-  const origin = queryParams.origin
+  const { distanceRadius, origin } = queryParams
   return this.findAll({
     where: {
       [Op.or]: [
@@ -72,7 +71,10 @@ Post.filterPosts = function(queryParams) {
       ],
     },
   }).then(posts => {
-    return filterByDistance(posts, distanceRadius, origin)
+    if (posts.length) {
+      return filterByDistance(posts, distanceRadius, origin)
+    }
+    return []
   })
 }
 
@@ -89,12 +91,13 @@ function filterByDistance(posts, distanceRadius, origin) {
     process.env.GOOGLE_API_KEY
   }
 `
-  axios.get(requestUrl).then(res => {
+  return axios.get(requestUrl).then(res => {
     const distanceResults = res.data.rows[0].elements
     const filteredPosts = posts.filter((post, i) => {
-      if (distanceResults[i].distance.value <= +distanceRadius) return true
+      if (distanceResults[i].distance.value <= +distanceRadius) {
+        return true
+      }
     })
-
     return filteredPosts
   })
 }

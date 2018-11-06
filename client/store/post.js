@@ -87,12 +87,12 @@ export const addPostThunk = ({ file, title, description, price }) => {
       .catch(err => console.error(err))
   }
 }
-export const searchPostsThunk = queryString => {
+export const searchPostsThunk = (queryString, radius) => {
   return dispatch => {
-    dispatch(handleSearchAction(queryString))
+    // dispatch(handleSearchAction(queryString))
     return axios
       .get(
-        `api/posts/?search=${queryString}&origin=5200+S+Blackstone+Chicago+IL&distanceRadius=1500`
+        `api/posts/?search=${queryString}&origin=5200+S+Blackstone+Chicago+IL&distanceRadius=${radius}`
       )
       .then(res => dispatch(getPostsAction(res.data)))
       .catch(err => console.error('Error in thunk:', err.message))
@@ -107,7 +107,6 @@ const initialState = {
   currentPost: {},
   posts: [],
   input: { title: '', description: '', price: '', file: null },
-  queryString: null,
   isFetching: true,
 }
 
