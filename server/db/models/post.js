@@ -1,6 +1,7 @@
 const db = require('../db')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
+const axios = require('axios')
 
 const Post = db.define('post', {
   imageUrl: {
@@ -25,10 +26,35 @@ const Post = db.define('post', {
       notEmpty: true,
     },
   },
+  address: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  city: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  state: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  zipcode: {
+    type: Sequelize.STRING,
+  },
 })
 
-Post.filterPosts = function(queryString) {
-  queryString = `%${queryString}%`
+Post.filterPosts = function(queryParams) {
+  const queryString = `%${queryParams.search}%`
+  const { distanceRadius, origin } = queryParams
   return this.findAll({
     where: {
       [Op.or]: [
@@ -44,6 +70,35 @@ Post.filterPosts = function(queryString) {
         },
       ],
     },
+  }).then(posts => {
+    if (posts.length) {
+      return filterByDistance(posts, distanceRadius, origin)
+    }
+    return []
+  })
+}
+
+function filterByDistance(posts, distanceRadius, origin) {
+  // use google maps api to filter by specified distance
+  const destinations = posts
+    .map(post => {
+      return `${post.address.replace(/\s/g, '+')}+${post.city}+${post.state}+${
+        post.zipcode
+      }`
+    })
+    .join('|')
+  const requestUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destinations}&key=${
+    process.env.GOOGLE_API_KEY
+  }
+`
+  return axios.get(requestUrl).then(res => {
+    const distanceResults = res.data.rows[0].elements
+    const filteredPosts = posts.filter((post, i) => {
+      if (distanceResults[i].distance.value <= +distanceRadius) {
+        return true
+      }
+    })
+    return filteredPosts
   })
 }
 
