@@ -5,16 +5,16 @@ const morgan = require('morgan')
 const path = require('path')
 const passport = require('passport')
 const session = require('express-session')
-const { User, db } = require('./db/models')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const dbStore = new SequelizeStore({ db: db })
 const cloudinary = require('cloudinary')
-
-dbStore.sync()
 
 if (process.env.NODE_ENV !== 'production') {
   require('../secrets')
 }
+
+const { User, db } = require('./db/models')
+const SequelizeStore = require('connect-session-sequelize')(session.Store)
+const dbStore = new SequelizeStore({ db: db })
+dbStore.sync()
 
 app.use(morgan('dev'))
 app.use(bodyParser.json({ extended: false }))
