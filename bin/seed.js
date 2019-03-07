@@ -1,3 +1,5 @@
+process.env.DATABASE_URL = 'postgres://localhost:5432/'
+
 const { db, Booking, Category, Post, User } = require('../server/db/models')
 const CategoryPost = db.model('category_post')
 
