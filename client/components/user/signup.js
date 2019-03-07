@@ -1,29 +1,30 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Input } from '../utility'
-import { Form, Button, Container } from 'semantic-ui-react'
-import { createUserThunk } from '../../store'
-import history from '../../history'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Input } from '../utility';
+import { Form, Button, Container } from 'semantic-ui-react';
+import { createUserThunk } from '../../store';
+import history from '../../history';
 
 class SignUp extends React.Component {
   constructor() {
-    super()
+    super();
     this.state = {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-    }
+      username: '',
+    };
   }
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value,
-    })
-  }
+    });
+  };
   handleSubmit = event => {
-    event.preventDefault()
-    this.props.createUser(this.state).then(() => history.push('/posts'))
-  }
+    event.preventDefault();
+    this.props.createUser(this.state).then(() => history.push('/posts'));
+  };
   render() {
     return (
       <Container>
@@ -44,6 +45,13 @@ class SignUp extends React.Component {
           />
           <Input
             type="text"
+            placeholder="Username"
+            label="Username"
+            name="username"
+            value={this.state.username}
+          />
+          <Input
+            type="text"
             placeholder="Email"
             label="Email"
             name="email"
@@ -61,17 +69,17 @@ class SignUp extends React.Component {
           </Button>
         </Form>
       </Container>
-    )
+    );
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     createUser: formData => dispatch(createUserThunk(formData)),
-  }
-}
+  };
+};
 
 export default connect(
   null,
   mapDispatch
-)(SignUp)
+)(SignUp);
