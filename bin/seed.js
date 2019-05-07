@@ -1,4 +1,4 @@
-process.env.DATABASE_URL = 'postgres://localhost:5432/'
+process.env.DATABASE_URL = 'postgres://localhost:5432/sharelyfe'
 
 const { db, Booking, Category, Post, User } = require('../server/db/models')
 const CategoryPost = db.model('category_post')

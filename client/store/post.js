@@ -9,6 +9,7 @@ const ADD_POST = 'ADD_POST'
 const HANDLE_INPUT = 'HANDLE_INPUT'
 const HANDLE_SEARCH = 'HANDLE_SEARCH'
 const SET_FETCH = 'SET_FETCH'
+const LOGOUT_USER = 'LOGOUT_USER'
 
 /*
   ACTION CREATORS
@@ -127,6 +128,13 @@ export default function(state = initialState, action) {
       return { ...state, queryString: action.queryString }
     case SET_FETCH:
       return { ...state, isFetching: action.status }
+    case LOGOUT_USER:
+      return {
+        currentPost: {},
+        posts: [],
+        input: { title: '', description: '', price: '', file: null },
+        isFetching: true,
+      }
     default:
       return state
   }
