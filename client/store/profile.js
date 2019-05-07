@@ -5,6 +5,7 @@ import axios from 'axios'
 */
 const GET_USER_POSTS = 'GET_USER_POSTS'
 const GET_USER_BOOKINGS = 'GET_USER_BOOKINGS'
+const LOGOUT_USER = 'LOGOUT_USER'
 
 /*
   ACTION CREATORS
@@ -57,6 +58,8 @@ export default (state = initialState, action) => {
       return { ...state, posts: action.posts }
     case GET_USER_BOOKINGS:
       return { ...state, bookings: action.bookings }
+    case LOGOUT_USER:
+      return { posts: [], bookings: [] }
     default:
       return state
   }

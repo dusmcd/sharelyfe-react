@@ -7,6 +7,7 @@ const SET_DATE = 'SET_DATE'
 const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
 const BOOKING_COMPLETE = 'BOOKING_COMPLETE'
 const SET_BUTTON_STATUS = 'SET_BUTTON_STATUS'
+const LOGOUT_USER = 'LOGOUT_USER'
 /*
   ACTION CREATORS
 */
@@ -73,6 +74,13 @@ export default (state = initialState, action) => {
       return { ...state, bookingComplete: action.status }
     case SET_BUTTON_STATUS:
       return { ...state, buttonDisabled: action.status }
+    case LOGOUT_USER:
+      return {
+        dates: [],
+        isLoading: false,
+        bookingComplete: false,
+        buttonDisabled: false,
+      }
     default:
       return state
   }
