@@ -5,14 +5,20 @@ import { getPostThunk, setFetchAction } from '../../store'
 import BookingCalendar from './booking-calendar'
 import ConfirmationPopup from './confirmation-popup'
 import { CalendarContainer } from './post-styles'
+import NotFound from '../not-found'
 
 class Post extends React.Component {
   componentDidMount() {
-    this.props.fetchPost(this.props.match.params.id)
+    const postId = this.props.match.params.id
+    !isNaN(postId) && this.props.fetchPost(this.props.match.params.id)
   }
   render() {
     const { post } = this.props
+    const postId = this.props.match.params.id
     const Trigger = <Button color="green">Complete Reservation</Button>
+    if (isNaN(postId)) {
+      return <NotFound />
+    }
     return (
       <Container>
         <Card fluid>

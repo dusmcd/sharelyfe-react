@@ -8,6 +8,8 @@ import {
   Post,
   AddPost,
   UserDashboard,
+  UserList,
+  NotFound,
 } from './components'
 import { connect } from 'react-redux'
 import { getUserThunk } from './store'
@@ -22,15 +24,19 @@ class Routes extends React.Component {
     }
   }
   render() {
+    const isLoggedIn = !!this.props.user.id
+    const isAdmin = this.props.user.isAdmin
     return (
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route path="/signup" component={SignUp} />
         <Route path="/login" component={Login} />
-        <Route exact path="/posts/new" component={AddPost} />
+        {isLoggedIn && <Route exact path="/posts/new" component={AddPost} />}
         <Route path="/posts/:id" component={Post} />
         <Route path="/posts" component={PostList} />
-        <Route path="/me" component={UserDashboard} />
+        {isLoggedIn && <Route path="/me" component={UserDashboard} />}
+        {isAdmin && <Route path="/admin/userManagement" component={UserList} />}
+        <Route path="/" component={NotFound} />
       </Switch>
     )
   }
