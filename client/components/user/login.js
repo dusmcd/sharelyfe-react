@@ -4,7 +4,6 @@ import history from '../../history'
 import { Input } from '../utility'
 import { Form, Button, Message, Container } from 'semantic-ui-react'
 import { loginUserThunk, setErrorAction } from '../../store'
-import user from '../../store/user'
 
 class Login extends React.Component {
   constructor() {
@@ -25,7 +24,7 @@ class Login extends React.Component {
       if (!this.props.error) {
         history.push('/me')
       } else {
-        this.props.user.id && this.props.resetError() && history.push('/')
+        this.props.user.id && this.props.resetError() && history.push('/me')
       }
     })
   }
@@ -35,13 +34,14 @@ class Login extends React.Component {
   render() {
     return (
       <Container>
-        <Form onChange={this.handleChange} onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           <Input
             type="text"
             name="email"
             placeholder="Email"
             label="Email"
             value={this.state.email}
+            onChange={this.handleChange}
           />
           <Input
             type="password"
@@ -49,6 +49,7 @@ class Login extends React.Component {
             placeholder="Password"
             label="Password"
             value={this.state.password}
+            onChange={this.handleChange}
           />
           <Button primary type="submit">
             Login

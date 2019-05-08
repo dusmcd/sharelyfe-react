@@ -5,6 +5,7 @@ import { Button, Icon } from 'semantic-ui-react'
 import { logoutUserThunk } from './store'
 import { SearchBar } from './components'
 import styled from 'styled-components'
+import history from './history'
 
 const UserContainer = styled.ul`
   display: flex;
@@ -24,7 +25,9 @@ class UserNav extends React.Component {
       showSearchBar: false,
     }
   }
-
+  logoutUser = () => {
+    this.props.logout().then(() => history.push('/posts'))
+  }
   toggleSearchBar = () => {
     if (this.state.showSearchBar) {
       this.setState({ showSearchBar: false })
@@ -42,7 +45,7 @@ class UserNav extends React.Component {
               <Link to="/me">My Profile</Link>
             </li>
             <li>
-              <a href="#" onClick={() => this.props.logout()}>
+              <a href="#" onClick={() => this.logoutUser()}>
                 Logout
               </a>
             </li>

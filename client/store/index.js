@@ -5,8 +5,9 @@ import user from './user'
 import post from './post'
 import booking from './booking'
 import profile from './profile'
+import admin from './admin'
 
-const sharelyfeApp = combineReducers({ user, post, booking, profile })
+const sharelyfeApp = combineReducers({ user, post, booking, profile, admin })
 const logger = createLogger({
   collapsed: true,
 })
@@ -18,3 +19,4 @@ export * from './user'
 export * from './post'
 export * from './booking'
 export * from './profile'
+export * from './admin'
