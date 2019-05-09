@@ -9,6 +9,7 @@ import {
   AddPost,
   UserDashboard,
   UserList,
+  UserProfile,
   NotFound,
 } from './components'
 import { connect } from 'react-redux'
@@ -35,6 +36,9 @@ class Routes extends React.Component {
         <Route path="/posts/:id" component={Post} />
         <Route path="/posts" component={PostList} />
         {isLoggedIn && <Route path="/me" component={UserDashboard} />}
+        {isAdmin && (
+          <Route path="/admin/userManagement/:id" component={UserProfile} />
+        )}
         {isAdmin && <Route path="/admin/userManagement" component={UserList} />}
         <Route path="/" component={NotFound} />
       </Switch>

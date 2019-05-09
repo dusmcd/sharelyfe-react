@@ -2,6 +2,7 @@ import React from 'react'
 import { getAllUsersThunk } from '../../store'
 import { connect } from 'react-redux'
 import { Container, Table, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 class UserList extends React.Component {
   componentDidMount() {
@@ -28,7 +29,9 @@ class UserList extends React.Component {
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>
-                    <Button primary>View</Button>
+                    <Link to={`/admin/userManagement/${user.id}`}>
+                      <Button primary>View</Button>
+                    </Link>
                   </Table.Cell>
                 </Table.Row>
               )
