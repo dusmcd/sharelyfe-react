@@ -1,38 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Button, Icon } from 'semantic-ui-react'
 import { logoutUserThunk } from './store'
-import styled from 'styled-components'
 import history from './history'
+import {
+  StyledLink,
+  Nav,
+  LogoContainer,
+  UserContainer,
+  LinkContainer,
+} from './styles'
 
-const UserContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 45%;
-  margin: auto 0;
-`
-const Nav = styled.nav`
-  display: flex;
-  justify-content: space-between;
-  background-color: #3d3a3a;
-  padding: 22px;
-  margin-bottom: 10px;
-  font-size: 18px;
-`
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-`
-const LogoContainer = styled.section`
-  margin: auto 0;
-`
-const LinkContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin: auto 0;
-  flex-grow: 1;
-`
 const AddButton = () => {
   return (
     <StyledLink to="/posts/new">
