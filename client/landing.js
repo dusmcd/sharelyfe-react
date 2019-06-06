@@ -1,28 +1,16 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Grid, Image, Container, Segment, Divider } from 'semantic-ui-react'
+import { Grid, Image, Divider } from 'semantic-ui-react'
+import { Header, MyContainer, FancyParagraph, SizedImage } from './styles'
 
-const SizedImage = styled.img`
-  width: 100%;
-  height: 600px;
-`
-const Header = styled.div`
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 200px;
-`
-const FancyParagraph = styled(Grid.Column)`
-  font-family: 'Amatic SC', cursive;
-  font-size: 37px;
-`
-const MyContainer = styled(Container)`
-  margin: 90px 0;
-`
 const Landing = () => {
   return (
     <div style={{ width: '100%' }}>
-      <SizedImage src="https://images.pexels.com/photos/2180426/pexels-photo-2180426.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=1500" />
+      <div>
+        <SizedImage
+          src="https://images.pexels.com/photos/2180426/pexels-photo-2180426.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=650&w=1500"
+          fluid
+        />
+      </div>
       <Header>
         <h1>Don't just live life, ShareLyfe.</h1>
       </Header>
