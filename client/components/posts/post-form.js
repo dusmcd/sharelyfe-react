@@ -2,16 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Button, Container, Dropdown } from 'semantic-ui-react'
 import { Input } from '../utility'
-import { handleInputAction } from '../../store'
+import { handleInputAction, getCategoriesThunk } from '../../store'
 import history from '../../history'
 
 class PostForm extends React.Component {
+  componentDidMount() {
+    this.props.getCategories()
+  }
+
+  handleCategoryChange = (_event, data) => {
+    this.props.handleChange({ category: data.value })
+  }
+
   handleChange = event => {
     this.props.handleChange({ [event.target.name]: event.target.value })
   }
   handleSubmit = event => {
     event.preventDefault()
     this.props.submitAction(this.props.input).then(action => {
+      console.log('ACTION:', action)
       history.push(`/posts/${action.post.id}`)
     })
   }
@@ -21,6 +30,9 @@ class PostForm extends React.Component {
   }
   render() {
     const { title, description, price } = this.props.input
+    const categories = this.props.categories.map(category => {
+      return { key: category.id, value: category.id, text: category.name }
+    })
     return (
       <Container>
         <Form onSubmit={this.handleSubmit}>
@@ -53,7 +65,11 @@ class PostForm extends React.Component {
             />
             <Form.Field className="input-align">
               <label>Category</label>
-              <Dropdown search selection />
+              <Dropdown
+                selection
+                options={categories}
+                onChange={this.handleCategoryChange}
+              />
             </Form.Field>
           </div>
           <Input
@@ -74,12 +90,14 @@ class PostForm extends React.Component {
 const mapState = state => {
   return {
     input: state.post.input,
+    categories: state.categories,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     handleChange: formData => dispatch(handleInputAction(formData)),
+    getCategories: () => dispatch(getCategoriesThunk()),
   }
 }
 
