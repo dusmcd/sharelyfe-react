@@ -3,7 +3,12 @@ process.env.DATABASE_URL = 'postgres://localhost:5432/sharelyfe'
 const { db, Booking, Category, Post, User } = require('../server/db/models')
 const CategoryPost = db.model('category_post')
 
-const categories = [{ name: 'Parking' }]
+const categories = [
+  { name: 'Parking' },
+  { name: 'Recreation' },
+  { name: 'Music' },
+  { name: 'Social' },
+]
 
 const users = [
   {
@@ -81,28 +86,6 @@ const posts = [
     state: 'IL',
     zipcode: '60615',
   },
-  {
-    imageUrl:
-      'http://cdntdreditorials.azureedge.net/cache/c/d/8/9/3/1/cd8931a86ea2b5b7a770ceae856c791942ab1e17.jpg',
-    title: 'Parking for Disney',
-    description: 'You can park here if you really want to',
-    price: 5,
-    address: '5200 S University',
-    city: 'Chicago',
-    state: 'IL',
-    zipcode: '60615',
-  },
-  {
-    imageUrl:
-      'https://urbanmatter.com/chicago/wp-content/uploads/2015/07/Hotel-Parking.jpg',
-    title: 'Parking for Disney',
-    description: 'You can park here if you really want to',
-    price: 5,
-    address: '21721 Johnstone Drive',
-    city: 'Lake Forest',
-    state: 'CA',
-    zipcode: '92630',
-  },
 ]
 const endDate = new Date(2018, 10, 16)
 const bookings = [
@@ -145,8 +128,9 @@ db.sync({ force: true })
   .then(results => {
     const [categoryArr, postArr] = results
     const categoryMapP = postArr.map((category, i) => {
+      const categoryIndex = Math.round(Math.random() * 4)
       CategoryPost.create({
-        categoryId: categoryArr[0].id,
+        categoryId: categoryArr[categoryIndex].id,
         postId: postArr[i].id,
       })
     })
