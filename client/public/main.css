@@ -8,3 +8,18 @@ body {
   height: auto;
   position: relative;
 }
+
+.small-input {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-align {
+  flex-basis: 45%;
+}
+
+#category-dropdown {
+  flex-basis: 45%;
+  align-self: center;
+  height: 70%;
+}

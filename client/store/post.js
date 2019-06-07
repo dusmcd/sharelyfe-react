@@ -75,12 +75,13 @@ export const getPostThunk = postId => {
       .catch(err => console.error(err))
   }
 }
-export const addPostThunk = ({ file, title, description, price }) => {
+export const addPostThunk = ({ file, title, description, price, category }) => {
   const data = new FormData()
   data.append('file', file)
   data.append('title', title)
   data.append('description', description)
   data.append('price', price)
+  data.append('category', category)
   return dispatch => {
     return axios
       .post('/api/posts', data)
@@ -107,7 +108,7 @@ export const searchPostsThunk = (queryString, radius) => {
 const initialState = {
   currentPost: {},
   posts: [],
-  input: { title: '', description: '', price: '', file: null },
+  input: { title: '', description: '', price: '', file: null, category: '' },
   isFetching: true,
 }
 

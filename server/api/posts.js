@@ -1,4 +1,5 @@
-const { Post, User, Booking } = require('../db/models')
+const { Post, User, Booking, db } = require('../db/models')
+const CategoryPost = db.model('category_post')
 const router = require('express').Router()
 const multer = require('multer')
 const Op = require('sequelize').Op
@@ -58,10 +59,17 @@ router.post('/', upload.single('file'), (req, res, next) => {
     description: req.body.description,
     price: +req.body.price,
     userId: req.user.id,
+    category: +req.body.category,
   }
   const createPost = newPost => {
     Post.create(newPost)
-      .then(post => res.status(201).json(post))
+      .then(post => {
+        return CategoryPost.create({
+          categoryId: newPost.category,
+          postId: post.id,
+        })
+      })
+      .then(categoryPost => res.status(201).json({ id: categoryPost.postId }))
       .catch(dberr => next(dberr))
   }
   if (req.file) {
