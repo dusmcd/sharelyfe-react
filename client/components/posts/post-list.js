@@ -9,11 +9,7 @@ class PostList extends React.Component {
   componentDidMount() {
     this.props.getCategories()
   }
-  componentDidUpdate(prevProps) {
-    if (prevProps.categories !== this.props.categories) {
-      this.props.getCategories()
-    }
-  }
+
   choosePost(postId) {
     history.push(`/posts/${postId}`)
   }
