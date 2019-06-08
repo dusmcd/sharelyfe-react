@@ -6,38 +6,11 @@ import post from './post'
 import booking from './booking'
 import profile from './profile'
 import admin from './admin'
-import axios from 'axios'
-
-const GET_CATEGORIES = 'GET_CATEGORIES'
-
-const getCategoriesAction = categories => {
-  return {
-    type: GET_CATEGORIES,
-    categories,
-  }
-}
-
-export const getCategoriesThunk = () => {
-  return dispatch => {
-    return axios
-      .get('/api/categories')
-      .then(res => dispatch(getCategoriesAction(res.data)))
-      .catch(err => console.error(err.message))
-  }
-}
-
-function categoryReducer(state = [], action) {
-  switch (action.type) {
-    case GET_CATEGORIES:
-      return action.categories
-    default:
-      return state
-  }
-}
+import category from './category'
 
 const sharelyfeApp = combineReducers({
   user,
-  categories: categoryReducer,
+  category,
   post,
   booking,
   profile,
@@ -55,3 +28,4 @@ export * from './post'
 export * from './booking'
 export * from './profile'
 export * from './admin'
+export * from './category'

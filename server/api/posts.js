@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', (req, res, next) => {
-  Post.findById(req.params.id, {
+  Post.findByPk(req.params.id, {
     include: [User, Booking],
     order: [[Booking, 'startDate']],
   })
