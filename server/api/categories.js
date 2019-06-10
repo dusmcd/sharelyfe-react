@@ -20,7 +20,6 @@ router.get('/posts', (req, res, next) => {
         }
         return { ...category.dataValues, posts: limitedPosts }
       })
-      console.log('CATEGORIES:', limitedCategories)
       res.json(limitedCategories)
     })
     .catch(err => next(err))
