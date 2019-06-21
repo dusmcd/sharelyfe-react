@@ -6,7 +6,7 @@ import {
   setLoadStatusAction,
   bookingCompleteAction,
   buttonStatusAction,
-  setDateAction,
+  clearDateAction,
 } from '../../store'
 
 class ConfirmationPopup extends React.Component {
@@ -28,7 +28,7 @@ class ConfirmationPopup extends React.Component {
 
   render() {
     const { post, dates, isLoading, bookingComplete, disabled } = this.props
-    if (!dates.length) return null
+    if (dates.length !== 2) return null
     const bookingData = {
       startDate: dates[0],
       endDate: dates[1],
@@ -105,7 +105,7 @@ const mapDispatch = dispatch => {
     setStatus: status => dispatch(setLoadStatusAction(status)),
     setBookingStatus: status => dispatch(bookingCompleteAction(status)),
     setButtonStatus: status => dispatch(buttonStatusAction(status)),
-    clearDates: () => dispatch(setDateAction([])),
+    clearDates: () => dispatch(clearDateAction()),
   }
 }
 
