@@ -14,6 +14,7 @@ export const Nav = styled.nav`
   padding: 22px;
   margin-bottom: 10px;
   font-size: 18px;
+  font-family: 'Poiret One', cursive;
 `
 export const StyledLink = styled(Link)`
   color: white;

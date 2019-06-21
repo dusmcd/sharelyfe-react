@@ -1,6 +1,11 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
-import { PostDetail, ImgContainer, InfoContainer, Thumbnail } from './styles'
+import {
+  PostDetail,
+  ImgContainer,
+  InfoContainer,
+  Thumbnail,
+} from '../../styles'
 import { formatDate } from '../utility/utility-funcs'
 import { Link } from 'react-router-dom'
 

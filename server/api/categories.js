@@ -25,7 +25,7 @@ router.get('/posts', (req, res, next) => {
     .catch(err => next(err))
 })
 
-router.get(':id/posts', (req, res, next) => {
+router.get('/:id/posts', (req, res, next) => {
   return Category.findByPk(req.params.id, {
     include: [{ model: Post }],
   }).then(category => res.json(category))

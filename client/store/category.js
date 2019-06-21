@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GET_CATEGORIES = 'GET_CATEGORIES'
 const GET_CATEGORIES_POSTS = 'GET_CATEGORIES_POSTS'
+const GET_CATEGORY_INFO = 'GET_CATEGORY_INFO'
 
 const getCategoriesAction = categories => {
   return {
@@ -10,10 +11,17 @@ const getCategoriesAction = categories => {
   }
 }
 
-const getPostsByCategoryAction = categories => {
+const getCategoriesPostsAction = categories => {
   return {
     type: GET_CATEGORIES_POSTS,
     categories,
+  }
+}
+
+const getCategoryInfoAction = category => {
+  return {
+    type: GET_CATEGORY_INFO,
+    category,
   }
 }
 
@@ -22,7 +30,7 @@ export const getCategoriesPostsThunk = () => {
     return axios
       .get('/api/categories/posts')
       .then(res => {
-        return dispatch(getPostsByCategoryAction(res.data))
+        return dispatch(getCategoriesPostsAction(res.data))
       })
       .catch(err => console.error(err.message))
   }
@@ -37,8 +45,18 @@ export const getCategoriesThunk = () => {
   }
 }
 
+export const getCategoryInfoThunk = categoryId => {
+  return dispatch => {
+    return axios
+      .get(`/api/categories/${categoryId}/posts`)
+      .then(res => dispatch(getCategoryInfoAction(res.data)))
+      .catch(err => console.error(err.message))
+  }
+}
+
 const initialState = {
   categories: [],
+  categoryInfo: {},
 }
 
 export default function categoryReducer(state = initialState, action) {
@@ -47,6 +65,8 @@ export default function categoryReducer(state = initialState, action) {
       return { ...state, categories: action.categories }
     case GET_CATEGORIES_POSTS:
       return { ...state, categories: action.categories }
+    case GET_CATEGORY_INFO:
+      return { ...state, categoryInfo: action.category }
     default:
       return state
   }

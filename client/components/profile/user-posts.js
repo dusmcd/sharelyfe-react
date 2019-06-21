@@ -1,6 +1,11 @@
 import React from 'react'
 import { Segment } from 'semantic-ui-react'
-import { PostDetail, ImgContainer, InfoContainer, Thumbnail } from './styles'
+import {
+  PostDetail,
+  ImgContainer,
+  InfoContainer,
+  Thumbnail,
+} from '../../styles'
 import PostBookings from './post-bookings'
 import { Link } from 'react-router-dom'
 
