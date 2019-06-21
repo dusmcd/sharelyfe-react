@@ -10,6 +10,7 @@ import {
   UserDashboard,
   UserList,
   NotFound,
+  CategoryPosts,
 } from './components'
 import { connect } from 'react-redux'
 import { getUserThunk } from './store'
@@ -34,6 +35,7 @@ class Routes extends React.Component {
         {isLoggedIn && <Route exact path="/posts/new" component={AddPost} />}
         <Route path="/posts/:id" component={Post} />
         <Route path="/posts" component={PostList} />
+        <Route path="/categories/:id/posts" component={CategoryPosts} />
         {isLoggedIn && <Route path="/me" component={UserDashboard} />}
         {isAdmin && <Route path="/admin/userManagement" component={UserList} />}
         <Route path="/" component={NotFound} />

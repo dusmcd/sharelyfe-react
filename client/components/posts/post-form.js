@@ -90,7 +90,7 @@ class PostForm extends React.Component {
 const mapState = state => {
   return {
     input: state.post.input,
-    categories: state.categories,
+    categories: state.category.categories,
   }
 }
 

@@ -1,43 +1,44 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getPostsThunk } from '../../store'
-import SinglePost from './single-post'
+import { getCategoriesPostsThunk } from '../../store'
+import { Container } from 'semantic-ui-react'
+import PostGroup from './post-group'
 import history from '../../history'
 
 class PostList extends React.Component {
   componentDidMount() {
-    this.props.fetchPosts()
+    this.props.getCategories()
   }
+
   choosePost(postId) {
     history.push(`/posts/${postId}`)
   }
   render() {
-    const { posts } = this.props
-    if (!posts.length) return <h2>No results found</h2>
+    const categories = this.props.categories
     return (
-      <div className="ui stackable grid container">
-        {posts.map(post => {
+      <Container>
+        {categories.map(category => {
           return (
-            <SinglePost
-              key={post.id}
-              post={post}
-              choosePost={this.choosePost}
+            <PostGroup
+              category={category}
+              key={category.id}
+              posts={category.posts}
             />
           )
         })}
-      </div>
+      </Container>
     )
   }
 }
 
 const mapState = state => {
   return {
-    posts: state.post.posts,
+    categories: state.category.categories,
   }
 }
 const mapDispatch = dispatch => {
   return {
-    fetchPosts: () => dispatch(getPostsThunk()),
+    getCategories: () => dispatch(getCategoriesPostsThunk()),
   }
 }
 
