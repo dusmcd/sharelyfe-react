@@ -24,13 +24,11 @@ class BookingCalendar extends React.Component {
   }
 
   handleStartDateSelection(date) {
-    console.log('start date changed')
     this.props.setDates(date)
     this.setState({ startDate: date })
   }
 
   handleEndDateSelection(date) {
-    console.log('end date changed')
     this.props.setDates(date)
     this.setState({ endDate: date })
   }

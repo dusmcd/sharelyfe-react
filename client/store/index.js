@@ -16,10 +16,16 @@ const sharelyfeApp = combineReducers({
   profile,
   admin,
 })
-const logger = createLogger({
-  collapsed: true,
-})
-const store = createStore(sharelyfeApp, applyMiddleware(thunk, logger))
+
+const middlewares = [thunk]
+
+if (process.env.NODE_ENV === 'development') {
+  const logger = createLogger({
+    collapsed: true,
+  })
+  middlewares.push(logger)
+}
+const store = createStore(sharelyfeApp, applyMiddleware(...middlewares))
 
 export default store
 
