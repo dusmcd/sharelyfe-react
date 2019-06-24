@@ -9,7 +9,7 @@
     "start-dev": "export NODE_ENV=development && npm run start-server & webpack -w",
     "start-client": "webpack -w",
     "start-server": "nodemon server/server.js -e html,js,scss --ignore public --ignore client",
-    "start": "node server/server.js"
+    "start": "webpack && node server/server.js"
   },
   "author": "",
   "license": "ISC",
