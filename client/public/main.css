@@ -23,3 +23,15 @@ body {
   align-self: center;
   height: 70%;
 }
+
+.date-container {
+  display: flex;
+}
+
+#start-date {
+  flex-grow: 1;
+}
+
+#end-date {
+  flex-grow: 2;
+}

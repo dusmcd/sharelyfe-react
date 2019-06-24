@@ -6,7 +6,7 @@ import {
   setLoadStatusAction,
   bookingCompleteAction,
   buttonStatusAction,
-  setDateAction,
+  clearDateAction,
 } from '../../store'
 
 class ConfirmationPopup extends React.Component {
@@ -27,8 +27,19 @@ class ConfirmationPopup extends React.Component {
   }
 
   render() {
-    const { post, dates, isLoading, bookingComplete, disabled } = this.props
-    if (!dates.length) return null
+    const { post, isLoading, bookingComplete, disabled } = this.props
+    let { dates } = this.props
+    let Trigger
+    if (dates.length !== 2) {
+      dates = [new Date(), new Date()]
+      Trigger = (
+        <Button color="green" disabled={true}>
+          Confirm Reservation
+        </Button>
+      )
+    } else {
+      Trigger = <Button color="green">Confirm Reservation</Button>
+    }
     const bookingData = {
       startDate: dates[0],
       endDate: dates[1],
@@ -37,7 +48,7 @@ class ConfirmationPopup extends React.Component {
     }
 
     return (
-      <Modal trigger={this.props.Trigger} closeIcon onClose={this.handleClose}>
+      <Modal trigger={Trigger} closeIcon onClose={this.handleClose}>
         <Modal.Header>
           Please Confirm Your Reservation Details Below
         </Modal.Header>
@@ -62,7 +73,9 @@ class ConfirmationPopup extends React.Component {
                   <Table.Cell>
                     {dates[0].toDateString()}-{dates[1].toDateString()}
                   </Table.Cell>
-                  <Table.Cell>{post.user.username}</Table.Cell>
+                  <Table.Cell>
+                    {post && post.user && post.user.username}
+                  </Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table>
@@ -73,7 +86,7 @@ class ConfirmationPopup extends React.Component {
             <Message
               success
               header="Your reservation has been completed"
-              content="You will receive an email with your reservation details shortly. Please see My Reservations page for all activity."
+              content="Please see My Reservations page for all activity."
             />
           )}
           <Button
@@ -105,7 +118,7 @@ const mapDispatch = dispatch => {
     setStatus: status => dispatch(setLoadStatusAction(status)),
     setBookingStatus: status => dispatch(bookingCompleteAction(status)),
     setButtonStatus: status => dispatch(buttonStatusAction(status)),
-    clearDates: () => dispatch(setDateAction([])),
+    clearDates: () => dispatch(clearDateAction()),
   }
 }
 

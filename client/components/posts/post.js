@@ -15,7 +15,6 @@ class Post extends React.Component {
   render() {
     const { post } = this.props
     const postId = this.props.match.params.id
-    const Trigger = <Button color="green">Complete Reservation</Button>
     if (isNaN(postId)) {
       return <NotFound />
     }
@@ -40,7 +39,7 @@ class Post extends React.Component {
             <h3>{`$${post.price}`}</h3>
           </Card.Content>
         </Card>
-        <ConfirmationPopup Trigger={Trigger} post={post} />
+        <ConfirmationPopup post={post} />
         <CalendarContainer>
           <BookingCalendar post={post} />
         </CalendarContainer>

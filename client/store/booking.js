@@ -8,13 +8,20 @@ const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
 const BOOKING_COMPLETE = 'BOOKING_COMPLETE'
 const SET_BUTTON_STATUS = 'SET_BUTTON_STATUS'
 const LOGOUT_USER = 'LOGOUT_USER'
+const CLEAR_DATE = 'CLEAR_DATE'
 /*
   ACTION CREATORS
 */
-export const setDateAction = dateRange => {
+export const setDateAction = date => {
   return {
     type: SET_DATE,
-    dateRange,
+    date,
+  }
+}
+
+export const clearDateAction = () => {
+  return {
+    type: CLEAR_DATE,
   }
 }
 export const setLoadStatusAction = status => {
@@ -67,13 +74,16 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_DATE:
-      return { ...state, dates: action.dateRange }
+      const newDateRange = [...state.dates, action.date]
+      return { ...state, dates: newDateRange }
     case SET_LOAD_STATUS:
       return { ...state, isLoading: action.status }
     case BOOKING_COMPLETE:
       return { ...state, bookingComplete: action.status }
     case SET_BUTTON_STATUS:
       return { ...state, buttonDisabled: action.status }
+    case CLEAR_DATE:
+      return { ...state, dates: [] }
     case LOGOUT_USER:
       return {
         dates: [],
