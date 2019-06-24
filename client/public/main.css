@@ -7,6 +7,7 @@ body {
   min-height: 100%;
   height: auto;
   position: relative;
+  margin-bottom: 100px;
 }
 
 .small-input {
@@ -22,4 +23,16 @@ body {
   flex-basis: 45%;
   align-self: center;
   height: 70%;
+}
+
+.date-container {
+  display: flex;
+}
+
+#start-date {
+  flex-grow: 1;
+}
+
+#end-date {
+  flex-grow: 2;
 }
