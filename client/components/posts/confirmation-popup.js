@@ -22,27 +22,27 @@ class ConfirmationPopup extends React.Component {
   }
   handleClose = () => {
     this.props.setBookingStatus(false)
-    // if dates are empty then the confirmation popup trigger won't appear
     this.props.clearDates()
   }
 
   render() {
     const { post, isLoading, bookingComplete, disabled } = this.props
-    let { dates } = this.props
+    let { startDate, endDate } = this.props
     let Trigger
-    if (dates.length !== 2) {
-      dates = [new Date(), new Date()]
+    if (!startDate || !endDate) {
+      startDate = new Date()
+      endDate = new Date()
       Trigger = (
         <Button color="green" disabled={true}>
-          Confirm Reservation
+          Complete Reservation
         </Button>
       )
     } else {
-      Trigger = <Button color="green">Confirm Reservation</Button>
+      Trigger = <Button color="green">Complete Reservation</Button>
     }
     const bookingData = {
-      startDate: dates[0],
-      endDate: dates[1],
+      startDate: startDate,
+      endDate: endDate,
       price: post.price,
       payment: 'Cash',
     }
@@ -71,7 +71,7 @@ class ConfirmationPopup extends React.Component {
                     /day
                   </Table.Cell>
                   <Table.Cell>
-                    {dates[0].toDateString()}-{dates[1].toDateString()}
+                    {startDate.toDateString()}-{endDate.toDateString()}
                   </Table.Cell>
                   <Table.Cell>
                     {post && post.user && post.user.username}
@@ -105,7 +105,8 @@ class ConfirmationPopup extends React.Component {
 
 const mapState = state => {
   return {
-    dates: state.booking.dates,
+    startDate: state.booking.startDate,
+    endDate: state.booking.endDate,
     isLoading: state.booking.isLoading,
     bookingComplete: state.booking.bookingComplete,
     disabled: state.booking.buttonDisabled,

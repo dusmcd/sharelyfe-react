@@ -10,8 +10,7 @@
     "start-client": "webpack -w",
     "start-server": "nodemon server/server.js -e html,js,scss --ignore public --ignore client",
     "start": "node server/server.js",
-    "production-build": "webpack -p",
-    "heroku-postbuild": "node bin/seed.js"
+    "production-build": "webpack -p"
   },
   "author": "",
   "license": "ISC",

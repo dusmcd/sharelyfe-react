@@ -3,7 +3,8 @@ import axios from 'axios'
 /*
   ACTIONS
 */
-const SET_DATE = 'SET_DATE'
+const SET_START_DATE = 'SET_START_DATE'
+const SET_END_DATE = 'SET_END_DATE'
 const SET_LOAD_STATUS = 'SET_LOAD_STATUS'
 const BOOKING_COMPLETE = 'BOOKING_COMPLETE'
 const SET_BUTTON_STATUS = 'SET_BUTTON_STATUS'
@@ -12,9 +13,16 @@ const CLEAR_DATE = 'CLEAR_DATE'
 /*
   ACTION CREATORS
 */
-export const setDateAction = date => {
+export const setStartDateAction = date => {
   return {
-    type: SET_DATE,
+    type: SET_START_DATE,
+    date,
+  }
+}
+
+export const setEndDateAction = date => {
+  return {
+    type: SET_END_DATE,
     date,
   }
 }
@@ -65,7 +73,8 @@ export const createBookingThunk = (postId, formData) => {
 */
 
 const initialState = {
-  dates: [],
+  startDate: '',
+  endDate: '',
   isLoading: false,
   bookingComplete: false,
   buttonDisabled: false,
@@ -73,9 +82,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_DATE:
-      const newDateRange = [...state.dates, action.date]
-      return { ...state, dates: newDateRange }
+    case SET_START_DATE:
+      return { ...state, startDate: action.date }
+    case SET_END_DATE:
+      return { ...state, endDate: action.date }
     case SET_LOAD_STATUS:
       return { ...state, isLoading: action.status }
     case BOOKING_COMPLETE:
@@ -83,10 +93,11 @@ export default (state = initialState, action) => {
     case SET_BUTTON_STATUS:
       return { ...state, buttonDisabled: action.status }
     case CLEAR_DATE:
-      return { ...state, dates: [] }
+      return { ...state, startDate: '', endDate: '' }
     case LOGOUT_USER:
       return {
-        dates: [],
+        startDate: '',
+        endDate: '',
         isLoading: false,
         bookingComplete: false,
         buttonDisabled: false,
